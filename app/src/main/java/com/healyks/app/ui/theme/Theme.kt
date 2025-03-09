@@ -9,50 +9,74 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+private val LightColorScheme = lightColorScheme(
+    primary = Coffee,
+    onPrimary = Beige,
+    primaryContainer = Coffee.copy(alpha = 0.8f),
+    onPrimaryContainer = DarkOak,
+    secondary = Oak,
+    onSecondary = Beige,
+    secondaryContainer = Beige.copy(alpha = 0.7f),
+    onSecondaryContainer = DarkOak,
+    tertiary = Oak.copy(alpha = 0.8f),
+    onTertiary = Beige,
+    tertiaryContainer = Coffee.copy(alpha = 0.6f),
+    onTertiaryContainer = DarkOak,
+    background = Beige,
+    onBackground = Oak,
+    surface = Beige.copy(alpha = 0.9f),
+    onSurface = Oak,
+    surfaceVariant = Beige.copy(alpha = 0.7f),
+    onSurfaceVariant = Oak,
+    error = Color(0xFFB3261E),
+    onError = Beige,
+    errorContainer = Color(0xFFF9DEDC),
+    onErrorContainer = Color(0xFF410E0B)
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+// Dark Theme Colors
+private val DarkColorScheme = darkColorScheme(
+    primary = Coffee,
+    onPrimary = Beige,
+    primaryContainer = Coffee.copy(alpha = 0.6f),
+    onPrimaryContainer = Beige,
+    secondary = Beige,
+    onSecondary = DarkOak,
+    secondaryContainer = Oak,
+    onSecondaryContainer = Beige,
+    tertiary = Coffee,
+    onTertiary = Beige,
+    tertiaryContainer = Oak.copy(alpha = 0.6f),
+    onTertiaryContainer = Beige,
+    background = DarkOak,
+    onBackground = Beige,
+    surface = Oak,
+    onSurface = Beige,
+    surfaceVariant = Oak.copy(alpha = 0.7f),
+    onSurfaceVariant = Beige,
+    error = Color(0xFFF2B8B5),
+    onError = Color(0xFF601410),
+    errorContainer = Color(0xFF8C1D18),
+    onErrorContainer = Color(0xFFF9DEDC)
 )
 
 @Composable
 fun HealyksTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = HealyksTypography,
         content = content
     )
 }

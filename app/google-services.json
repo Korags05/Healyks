@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "238979113058",
+    "project_id": "healyks-d00b2",
+    "storage_bucket": "healyks-d00b2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:238979113058:android:d34451d4973a515563f13b",
+        "android_client_info": {
+          "package_name": "com.healyks.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOAFYQzJEuEI3vbmCTJkt3gJKTsiOnSA0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
