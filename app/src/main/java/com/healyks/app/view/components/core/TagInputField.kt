@@ -4,10 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.*
@@ -15,9 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -28,48 +25,49 @@ fun TagInputField(
     onTagAdded: (String) -> Unit,
     onTagRemoved: (String) -> Unit
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    // Use rememberSaveable instead of remember to preserve state during configuration changes
+    var expanded by rememberSaveable { mutableStateOf(false) }
     var showOtherField by rememberSaveable { mutableStateOf(false) }
     var otherInput by rememberSaveable { mutableStateOf("") }
 
     Column {
         // Display selected tags
-        Row(
+        LazyRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            selectedTags.forEach { tag ->
+            items(selectedTags.size) { index ->
+                val tag = selectedTags[index]
                 Chip(tag = tag, onRemove = { onTagRemoved(tag) })
             }
         }
 
         // Dropdown trigger
-            OutlinedTextField(
-                value = "",
-                onValueChange = {},
-                label = { Text(label) },
-                readOnly = true,
-                enabled = false,
-                shape = RoundedCornerShape(8.dp),
-                colors = TextFieldDefaults.colors(
-                    disabledTextColor = MaterialTheme.colorScheme.onBackground,
-                    disabledIndicatorColor = MaterialTheme.colorScheme.primary,
-                    disabledLabelColor = MaterialTheme.colorScheme.onBackground,
-                    focusedTextColor = MaterialTheme.colorScheme.onBackground,
-                    unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
-                    focusedContainerColor = Color.Transparent,
-                    unfocusedContainerColor = Color.Transparent,
-                    focusedIndicatorColor = MaterialTheme.colorScheme.onBackground,
-                    unfocusedIndicatorColor = MaterialTheme.colorScheme.onBackground,
-                    focusedLabelColor = MaterialTheme.colorScheme.onBackground.copy(0.75f),
-                    unfocusedLabelColor = MaterialTheme.colorScheme.onBackground.copy(0.75f),
-                    cursorColor = MaterialTheme.colorScheme.onBackground,
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { expanded = true }
-            )
-
+        OutlinedTextField(
+            value = "",
+            onValueChange = {},
+            label = { Text(label) },
+            readOnly = true,
+            enabled = false,
+            shape = RoundedCornerShape(8.dp),
+            colors = TextFieldDefaults.colors(
+                disabledTextColor = MaterialTheme.colorScheme.onBackground,
+                disabledIndicatorColor = MaterialTheme.colorScheme.primary,
+                disabledLabelColor = MaterialTheme.colorScheme.onBackground,
+                focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                focusedIndicatorColor = MaterialTheme.colorScheme.onBackground,
+                unfocusedIndicatorColor = MaterialTheme.colorScheme.onBackground,
+                focusedLabelColor = MaterialTheme.colorScheme.onBackground.copy(0.75f),
+                unfocusedLabelColor = MaterialTheme.colorScheme.onBackground.copy(0.75f),
+                cursorColor = MaterialTheme.colorScheme.onBackground,
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { expanded = true }
+        )
 
         // Dropdown menu
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {

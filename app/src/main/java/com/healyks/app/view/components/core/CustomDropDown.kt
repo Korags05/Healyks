@@ -15,18 +15,24 @@ fun CustomDropdown(
     label: String,
     options: List<String>,
     selectedOption: String,
+    copy: Float,
     onOptionSelected: (String) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
 
     Column {
         Box(modifier = Modifier
-            .fillMaxWidth(0.6f)
+            .fillMaxWidth(copy)
             .clickable { expanded = true }
             .padding(8.dp)
             .border(1.dp, MaterialTheme.colorScheme.onBackground, MaterialTheme.shapes.medium)
         ) {
-            Text(text = selectedOption.ifEmpty { "Select $label" }, modifier = Modifier.padding(16.dp))
+            Text(
+                maxLines = 1,
+                text = selectedOption.ifEmpty { "Select $label" },
+                modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                color = MaterialTheme.colorScheme.onBackground
+            )
         }
 
         DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {

@@ -1,5 +1,6 @@
 package com.healyks.app.view.screens
 
+import SelectingCards
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.systemBars
@@ -25,7 +27,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -34,6 +39,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.healyks.app.R
+import com.healyks.app.view.components.core.CustomButton
 import com.healyks.app.view.components.core.CustomDropdown
 import com.healyks.app.view.components.core.CustomTextField
 import com.healyks.app.view.components.core.TagInputField
@@ -44,16 +51,36 @@ fun postUserBodyScreen() {
     val bloodGroups = listOf("A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-")
     val allergiesOptions = listOf("Pollen", "Peanuts", "Dust", "Other")
     val diseasesOptions = listOf("Diabetes", "Hypertension", "Asthma", "Other")
-    val bloodGroup = remember { mutableStateOf("") }
-    val selectedAllergies = remember { mutableStateListOf<String>() }
-    val selectedDiseases = remember { mutableStateListOf<String>() }
+    val bloodGroup = rememberSaveable { mutableStateOf("") }
+    val selectedAllergies = rememberSaveable(
+        saver = listSaver(
+            save = { ArrayList(it) }, // Convert to ArrayList which can be saved in a Bundle
+            restore = { it.toMutableStateList() } // Convert back to SnapshotStateList
+        )
+    ) { mutableStateListOf<String>() }
+
+    val selectedDiseases = rememberSaveable(
+        saver = listSaver(
+            save = { ArrayList(it) },
+            restore = { it.toMutableStateList() }
+        )
+    ) { mutableStateListOf<String>() }
     val height = remember { mutableStateOf("") }
     val weight = remember { mutableStateOf("") }
     val medications = remember { mutableStateOf("") }
-    val gender = remember { mutableStateOf("") }
-    val smoking = remember { mutableStateOf("") }
-    val alcohol = remember { mutableStateOf("") }
-    val exercise = remember { mutableStateOf("") }
+    val selectedGender = rememberSaveable { mutableStateOf<String?>(null) }
+
+    val lifestyleOptions = listOf("Smoking", "Drinking", "Exercise")
+    val selectedLifestyles = rememberSaveable(
+        saver = listSaver(
+            save = { ArrayList(it) },
+            restore = { it.toMutableStateList() }
+        )
+    ) { mutableStateListOf<String>() }
+
+    val exerciseFrequencyOptions = listOf("Daily", "Weekly", "Monthly")
+    val exerciseFrequency = rememberSaveable { mutableStateOf("") }
+
     val scrollState = rememberScrollState()
 
     Column(
@@ -63,13 +90,13 @@ fun postUserBodyScreen() {
             .padding(WindowInsets.systemBars.asPaddingValues())
             .verticalScroll(scrollState)
             .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp), // Consistent spacing between items
-        horizontalAlignment = Alignment.Start
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "Fill your details",
             color = MaterialTheme.colorScheme.onBackground,
-            style = MaterialTheme.typography.displayMedium,
+            style = MaterialTheme.typography.displaySmall,
             fontWeight = FontWeight.Medium
         )
         Row(
@@ -108,6 +135,7 @@ fun postUserBodyScreen() {
             )
             Spacer(modifier = Modifier.width(8.dp))
             CustomDropdown(
+                copy = 0.6f,
                 label = "Blood Group",
                 options = bloodGroups,
                 selectedOption = bloodGroup.value,
@@ -210,74 +238,84 @@ fun postUserBodyScreen() {
                 text = "Gender:",
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
             )
-            CustomTextField(
-                value = gender.value,
-                onValueChange = { gender.value = it },
-                label = "eg: Male, Female, Others",
-                copy = 1f,
-                keyboardOptions = KeyboardOptions.Default,
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                SelectingCards(
+                    label = "Male",
+                    iconRes = R.drawable.male,
+                    isSelected = selectedGender.value == "Male",
+                    onClick = { selectedGender.value = "Male" }
+                )
+                SelectingCards(
+                    label = "Female",
+                    iconRes = R.drawable.female,
+                    isSelected = selectedGender.value == "Female",
+                    onClick = { selectedGender.value = "Female" }
+                )
+                SelectingCards(
+                    label = "Other",
+                    iconRes = R.drawable.other,
+                    isSelected = selectedGender.value == "Other",
+                    onClick = { selectedGender.value = "Other" }
+                )
+            }
         }
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
+        Column {
             Text(
-                text = "Smoking:",
+                text = "Lifestyle:",
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.weight(0.4f)
+                modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
             )
-            Spacer(modifier = Modifier.width(8.dp))
-            CustomTextField(
-                value = smoking.value,
-                onValueChange = { smoking.value = it },
-                label = "eg: Yes/No",
-                copy = 0.6f,
-                keyboardOptions = KeyboardOptions.Default,
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                lifestyleOptions.forEach { option ->
+                    SelectingCards(
+                        label = option,
+                        iconRes = when (option) {
+                            "Smoking" -> R.drawable.cigar
+                            "Drinking" -> R.drawable.beer
+                            "Exercise" -> R.drawable.physicalactivity
+                            else -> R.drawable.g
+                        },
+                        isSelected = selectedLifestyles.contains(option),
+                        onClick = {
+                            if (selectedLifestyles.contains(option)) {
+                                selectedLifestyles.remove(option)
+                                if (option == "Exercise") exerciseFrequency.value = "" // Reset frequency when deselecting Exercise
+                            } else {
+                                selectedLifestyles.add(option)
+                            }
+                        }
+                    )
+                }
+            }
+
+            if (selectedLifestyles.contains("Exercise")) {
+                Spacer(modifier = Modifier.height(8.dp))
+                CustomDropdown(
+                    copy = 1f,
+                    label = "Exercise Frequency",
+                    options = exerciseFrequencyOptions,
+                    selectedOption = exerciseFrequency.value,
+                    onOptionSelected = { exerciseFrequency.value = it }
+                )
+            }
         }
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            Text(
-                text = "Alcohol:",
-                color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.headlineSmall,
-                modifier = Modifier.weight(0.4f)
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            CustomTextField(
-                value = alcohol.value,
-                onValueChange = { alcohol.value = it },
-                label = "eg: Yes/No",
-                copy = 0.6f,
-                keyboardOptions = KeyboardOptions.Default,
-            )
-        }
-
-
-        Text(
-            text = "Exercise:",
-            color = MaterialTheme.colorScheme.onBackground,
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.padding(top = 8.dp)
+        CustomButton(
+            modifier = Modifier.padding(16.dp),
+            onClick = { TODO() },
+            label = "Submit",
+            copy = 0.6f,
+            weight = FontWeight.SemiBold
         )
-        CustomTextField(
-            value = exercise.value,
-            onValueChange = { exercise.value = it },
-            label = "eg: Daily, Weekly",
-            copy = 1f,
-            keyboardOptions = KeyboardOptions.Default,
-        )
-
     }
 }
 
