@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.healyks.app.view.screens.DashboardScreen
 import com.healyks.app.view.screens.OnBoardingScreen
 import com.healyks.app.view.screens.PostUserBodyScreen
 
@@ -14,7 +15,7 @@ fun HealyksNavigation(
 ) {
 
     val startDestination =
-        HealyksScreens.OnBoardingScreen.route
+        HealyksScreens.DashboardScreen.route
 
     NavHost(
         navController = navController,
@@ -26,6 +27,10 @@ fun HealyksNavigation(
 
         composable(HealyksScreens.PostUserBodyScreen.route) {
             PostUserBodyScreen(navController = navController)
+        }
+
+        composable(HealyksScreens.DashboardScreen.route) {
+            DashboardScreen(navController = navController)
         }
     }
 

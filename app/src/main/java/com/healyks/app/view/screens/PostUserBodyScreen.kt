@@ -37,6 +37,7 @@ import com.healyks.app.view.components.core.CustomButton
 import com.healyks.app.view.components.core.CustomDropdown
 import com.healyks.app.view.components.core.CustomTextField
 import com.healyks.app.view.components.core.TagInputField
+import com.healyks.app.view.navigation.HealyksScreens
 
 @Composable
 fun PostUserBodyScreen(navController: NavController) {
@@ -304,7 +305,7 @@ fun PostUserBodyScreen(navController: NavController) {
         }
         CustomButton(
             modifier = Modifier.padding(16.dp),
-            onClick = { TODO() },
+            onClick = { navController.navigate(HealyksScreens.DashboardScreen.route) },
             label = "Submit",
             copy = 0.6f,
             weight = FontWeight.SemiBold
