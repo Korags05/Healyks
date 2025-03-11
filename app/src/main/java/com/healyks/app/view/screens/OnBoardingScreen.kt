@@ -1,10 +1,10 @@
 package com.healyks.app.view.screens
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,14 +14,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.google.android.gms.auth.api.signin.GoogleSignIn
+import androidx.navigation.NavController
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.healyks.app.R
+import com.healyks.app.view.components.core.CustomButton
+import com.healyks.app.view.navigation.HealyksScreens
 import `in`.iotkiit.raidersreckoningapp.view.components.login.GoogleButtonTheme
 import `in`.iotkiit.raidersreckoningapp.view.components.login.GoogleOneTapButton
 
 @Composable
-fun OnBoardingScreen() {
+fun OnBoardingScreen(navController: NavController) {
     val isDarkTheme = isSystemInDarkTheme()
 
     val vectorRes = if (isDarkTheme) {
@@ -59,15 +61,24 @@ fun OnBoardingScreen() {
         Row(
             modifier = Modifier.padding(36.dp)
         ) {
-            GoogleOneTapButton(
-                theme = if (isDarkTheme) GoogleButtonTheme.Dark else GoogleButtonTheme.Light
-            ) {
-                val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                    .requestIdToken("token")
-                    .requestEmail()
-                    .build()
 
-            }
+            CustomButton(
+                modifier = Modifier.padding(16.dp),
+                onClick = { navController.navigate(HealyksScreens.PostUserBodyScreen.route) },
+                label = "Google Sign-In",
+                copy = 0.6f,
+                weight = FontWeight.SemiBold
+            )
+
+//            GoogleOneTapButton(
+//                theme = if (isDarkTheme) GoogleButtonTheme.Dark else GoogleButtonTheme.Light
+//            ) {
+//                val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                    .requestIdToken("token")
+//                    .requestEmail()
+//                    .build()
+//
+//            }
         }
     }
 }
