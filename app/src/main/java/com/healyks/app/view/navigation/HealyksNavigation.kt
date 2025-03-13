@@ -5,6 +5,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.healyks.app.view.screens.DashboardScreen
 import com.healyks.app.view.screens.FirstAidDetailScreen
 import com.healyks.app.view.screens.FirstAidListScreen
@@ -16,8 +18,14 @@ fun HealyksNavigation(
     navController: NavHostController = rememberNavController()
 ) {
 
-    val startDestination =
+    var startDestination =
         HealyksScreens.OnBoardingScreen.route
+
+    //temp sol
+    val isUserLoggedIn = Firebase.auth.currentUser != null
+    if (isUserLoggedIn) {
+        startDestination = HealyksScreens.DashboardScreen.route
+    }
 
     NavHost(
         navController = navController,

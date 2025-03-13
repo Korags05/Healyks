@@ -1,21 +1,16 @@
 package com.healyks.app.view.screens
 
 import TopBar
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -25,16 +20,15 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.google.firebase.auth.FirebaseAuth
 import com.healyks.app.R
 import com.healyks.app.data.model.DashboardItems
 import com.healyks.app.view.components.Carousel.ImageSlider
@@ -45,6 +39,12 @@ import com.healyks.app.view.navigation.HealyksScreens
 fun DashboardScreen(
     navController: NavController
 ) {
+
+    val auth = FirebaseAuth.getInstance()
+    val currentUser = auth.currentUser
+    val userName = currentUser?.displayName ?: "Mbappe"
+    val image = currentUser?.photoUrl?.toString() ?: "drawable://profile"
+
     val sliderItems = listOf(
         DashboardItems(
             id = "1",
@@ -68,7 +68,7 @@ fun DashboardScreen(
     val scrollState = rememberScrollState()
 
     Scaffold(topBar = {
-        TopBar(name = "Utkarsh", actions = {
+        TopBar(name = "Hello, $userName", actions = {
             IconButton(modifier = Modifier.padding(horizontal = 8.dp), onClick = {
                 TODO()
             }) {
@@ -76,26 +76,20 @@ fun DashboardScreen(
                     color = MaterialTheme.colorScheme.surfaceContainerLowest,
                     shape = CircleShape
                 ) {
-                    Image(
-                        painter = painterResource(R.drawable.dark_logo),
-                        contentDescription = "Profile Icon",
-                        modifier = Modifier.size(50.dp)
-                    )
-
                     //TODO
-//                    if (profileImageUrl != null) {
-//                        Image(
-//                            painter = rememberAsyncImagePainter(profileImageUrl),
-//                            contentDescription = "Profile Icon",
-//                            modifier = Modifier.size(32.dp)
-//                        )
-//                    } else {
-//                        Image(
-//                            painter = painterResource(R.drawable.profile),
-//                            contentDescription = "Profile Icon",
-//                            modifier = Modifier.size(32.dp)
-//                        )
-//                    }
+                    if (image != null) {
+                        Image(
+                            painter = rememberAsyncImagePainter(image),
+                            contentDescription = "Profile Icon",
+                            modifier = Modifier.size(50.dp)
+                        )
+                    } else {
+                        Image(
+                            painter = painterResource(R.drawable.g),
+                            contentDescription = "Profile Icon",
+                            modifier = Modifier.size(32.dp)
+                        )
+                    }
                 }
             }
         })

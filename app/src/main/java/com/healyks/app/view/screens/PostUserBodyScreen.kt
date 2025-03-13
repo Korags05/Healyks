@@ -1,6 +1,7 @@
 package com.healyks.app.view.screens
 
 import SelectingCards
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,27 +21,46 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 import com.healyks.app.R
+import com.healyks.app.data.model.Lifestyle
+import com.healyks.app.data.model.UserDetails
+import com.healyks.app.state.UiState
 import com.healyks.app.view.components.core.CustomButton
 import com.healyks.app.view.components.core.CustomDropdown
 import com.healyks.app.view.components.core.CustomTextField
 import com.healyks.app.view.components.core.TagInputField
 import com.healyks.app.view.navigation.HealyksScreens
+import com.healyks.app.vm.UserViewModel
+import kotlinx.coroutines.launch
 
 @Composable
-fun PostUserBodyScreen(navController: NavController) {
+fun PostUserBodyScreen(
+    navController: NavController,
+    userViewModel: UserViewModel = hiltViewModel()
+) {
+    val auth = FirebaseAuth.getInstance()
+    val currentUser = auth.currentUser
+    val userEmail = currentUser?.email ?: "No Email"
+
+    val coroutineScope = rememberCoroutineScope()
     val age = remember { mutableStateOf("") }
     val bloodGroups = listOf("A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-")
     val allergiesOptions = listOf("Pollen", "Peanuts", "Dust", "Other")
@@ -76,6 +96,33 @@ fun PostUserBodyScreen(navController: NavController) {
     val exerciseFrequency = rememberSaveable { mutableStateOf("") }
 
     val scrollState = rememberScrollState()
+
+
+    val postUserState = userViewModel.postUserState.collectAsState().value
+    val context = LocalContext.current
+
+    LaunchedEffect(postUserState) {
+        when (postUserState) {
+            is UiState.Success -> {
+                Toast.makeText(context, "User details posted successfully", Toast.LENGTH_SHORT).show()
+                navController.navigate(HealyksScreens.DashboardScreen.route) {
+                    popUpTo(HealyksScreens.PostUserBodyScreen.route) {
+                        saveState = true
+                        inclusive = true
+                    }
+                }
+                kotlinx.coroutines.delay(100)
+                userViewModel.resetPostUserState() // Reset the state after navigation
+            }
+
+            is UiState.Failed -> {
+                Toast.makeText(context, postUserState.message, Toast.LENGTH_SHORT).show()
+            }
+
+            else -> {}
+        }
+    }
+
 
     Column(
         modifier = Modifier
@@ -305,7 +352,44 @@ fun PostUserBodyScreen(navController: NavController) {
         }
         CustomButton(
             modifier = Modifier.padding(16.dp),
-            onClick = { navController.navigate(HealyksScreens.DashboardScreen.route) },
+            onClick = {
+                // Validate input fields
+                if (age.value.isEmpty() || bloodGroup.value.isEmpty() || height.value.isEmpty() ||
+                    weight.value.isEmpty() || selectedGender.value == null
+                ) {
+                    Toast.makeText(context, "Please fill all required fields", Toast.LENGTH_SHORT).show()
+                    return@CustomButton
+                }
+
+                // Prepare the UserDetails object
+                val userDetails = UserDetails(
+                    age = age.value.toInt(),
+                    bloodGroup = bloodGroup.value,
+                    height = height.value.toDouble().toInt(),
+                    weight = weight.value.toDouble().toInt(),
+                    allergies = selectedAllergies.toList(),
+                    chronicDiseases = selectedDiseases.toList(),
+                    medications = medications.value.split(",").map { it.trim() }, // Assuming medications are comma-separated
+                    gender = selectedGender.value!!,
+                    lifestyle = Lifestyle(
+                        alcohol = selectedLifestyles.contains("Drinking"),
+                        smoking = selectedLifestyles.contains("Smoking"),
+                        // Only include physicalActivity if Exercise is selected
+                        physicalActivity = if (selectedLifestyles.contains("Exercise")) {
+                            exerciseFrequency.value
+                        } else {
+                            // Use "None" instead of empty string, or whatever value is allowed in your enum
+                            null
+                        }
+                    ),
+                    email = userEmail // Add email if required
+                )
+
+                // Call the ViewModel to post user details
+                coroutineScope.launch {
+                    userViewModel.postUser(userDetails)
+                }
+            },
             label = "Submit",
             copy = 0.6f,
             weight = FontWeight.SemiBold
