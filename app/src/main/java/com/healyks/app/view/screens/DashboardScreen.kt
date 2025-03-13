@@ -39,6 +39,7 @@ import com.healyks.app.R
 import com.healyks.app.data.model.DashboardItems
 import com.healyks.app.view.components.Carousel.ImageSlider
 import com.healyks.app.view.components.core.CustomCard
+import com.healyks.app.view.navigation.HealyksScreens
 
 @Composable
 fun DashboardScreen(
@@ -129,7 +130,13 @@ fun DashboardScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                CustomCard(label = "first aid", onClick = {}, iconRes = R.drawable.firstaid)
+                CustomCard(
+                    label = "first aid",
+                    onClick = {
+                        navController.navigate(HealyksScreens.FirstAidListScreen.route)
+                    },
+                    iconRes = R.drawable.firstaid
+                )
                 CustomCard(label = "analyze", onClick = {}, iconRes = R.drawable.analyze)
             }
             Row (

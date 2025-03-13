@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.healyks.app.ui.theme.Beige
 import com.healyks.app.ui.theme.Coffee
@@ -38,6 +39,8 @@ fun CustomButton(
         border = BorderStroke(2.dp, Coffee)
     ) {
         Text(
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(6.dp),
             text = label,
             color = Beige,

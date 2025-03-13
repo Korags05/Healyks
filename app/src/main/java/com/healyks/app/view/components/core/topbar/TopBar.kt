@@ -8,6 +8,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.draw.shadow
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import com.healyks.app.ui.theme.Beige
 import com.healyks.app.ui.theme.Oak
 
@@ -15,21 +17,33 @@ import com.healyks.app.ui.theme.Oak
 @Composable
 fun TopBar(
     name: String,
+    onBackClick: (() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {}
 ) {
     TopAppBar(
         title = {
             Text(
-                text = "Hello, $name",
+                text = name,
                 style = MaterialTheme.typography.headlineSmall,
                 color = Beige,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
         },
+        navigationIcon = {
+            onBackClick?.let {
+                IconButton(onClick = it) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Back",
+                        tint = Beige
+                    )
+                }
+            }
+        },
         actions = actions,
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Oak // Still needed for internal theming
+            containerColor = Oak
         )
     )
 }
