@@ -6,7 +6,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,6 +17,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -25,6 +25,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.ktx.auth
@@ -32,7 +36,6 @@ import com.google.firebase.ktx.Firebase
 import com.healyks.app.BuildConfig
 import com.healyks.app.R
 import com.healyks.app.state.UiState
-import com.healyks.app.view.components.core.CustomButton
 import com.healyks.app.view.navigation.HealyksScreens
 import com.healyks.app.vm.UserViewModel
 import `in`.iotkiit.raidersreckoningapp.view.components.login.GoogleButtonTheme
@@ -48,6 +51,7 @@ fun OnBoardingScreen(
     val verifyTokenState = userViewModel.verifyTokenState.collectAsState().value
     var resetTrigger by remember { mutableIntStateOf(0) }
     val token = BuildConfig.FIREBASE_TOKEN
+    val googleLoading by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.google_loading))
 
     val launcher = rememberFirebaseAuthLauncher(
         onAuthComplete = { result ->
@@ -105,6 +109,14 @@ fun OnBoardingScreen(
                 contentDescription = "Onboarding Illustration",
                 modifier = Modifier.size(200.dp)
             )
+            if (verifyTokenState is UiState.Loading) {
+                LottieAnimation(
+                    modifier = Modifier.size(180.dp),
+                    composition = googleLoading,
+                    iterations = LottieConstants.IterateForever,
+                    contentScale = ContentScale.Fit
+                )
+            }
         }
         Row(
             modifier = Modifier.padding(36.dp)
@@ -127,6 +139,8 @@ fun OnBoardingScreen(
                     }
                 }
             }
+
+
         }
     }
 

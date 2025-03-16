@@ -6,4 +6,5 @@ sealed class HealyksScreens(val route: String) {
     object DashboardScreen : HealyksScreens("dashboard_screen")
     object FirstAidListScreen : HealyksScreens("firstAidList_screen")
     object FirstAidDetailScreen : HealyksScreens("firstAidDetail_screen")
+    object ProfileScreen : HealyksScreens("profile_screen")
 }

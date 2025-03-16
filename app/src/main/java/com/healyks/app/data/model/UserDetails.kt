@@ -22,7 +22,7 @@ data class UserDetails(
     val gender: String,
 
     @SerializedName("height")
-    val height: Int,
+    val height: Double,
 
     @SerializedName("lifestyle")
     val lifestyle: Lifestyle,
@@ -31,5 +31,5 @@ data class UserDetails(
     val medications: List<String>,
 
     @SerializedName("weight")
-    val weight: Int
+    val weight: Double
 )

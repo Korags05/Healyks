@@ -1,22 +1,27 @@
 package com.healyks.app.view.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.healyks.app.view.screens.DashboardScreen
 import com.healyks.app.view.screens.FirstAidDetailScreen
 import com.healyks.app.view.screens.FirstAidListScreen
 import com.healyks.app.view.screens.OnBoardingScreen
 import com.healyks.app.view.screens.PostUserBodyScreen
+import com.healyks.app.view.screens.ProfileScreen
 
 @Composable
 fun HealyksNavigation(
     navController: NavHostController = rememberNavController()
 ) {
+
+    val auth = FirebaseAuth.getInstance()
 
     var startDestination =
         HealyksScreens.OnBoardingScreen.route
@@ -48,6 +53,22 @@ fun HealyksNavigation(
         composable(HealyksScreens.FirstAidDetailScreen.route) {
             FirstAidDetailScreen(navController = navController)
         }
+        composable(HealyksScreens.ProfileScreen.route) {
+            ProfileScreen(
+                navController = navController,
+                onLogOutClick = {
+                    try {
+                        auth.signOut()
+                        // This is the key fix: clear the entire back stack and navigate to OnBoarding
+                        navController.navigate(HealyksScreens.OnBoardingScreen.route) {
+                            // Clear the entire back stack
+                            popUpTo(0) { inclusive = true }
+                        }
+                    } catch (e: Exception) {
+                        Log.e("Logout", "Logout failed: ${e.message}")
+                    }
+                }
+            )
+        }
     }
-
 }

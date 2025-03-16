@@ -1,18 +1,19 @@
 package com.healyks.app.di
 
+import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.healyks.app.BuildConfig
 import com.healyks.app.data.remote.UserApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
-
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -56,6 +57,11 @@ object AppModule {
     }
 
     @Provides
+    @Singleton
     fun providesFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(@ApplicationContext context: Context) =
+        context.getSharedPreferences("user_details", Context.MODE_PRIVATE)
 }

@@ -2,6 +2,7 @@ package com.healyks.app.view.screens
 
 import SelectingCards
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,8 +17,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,6 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -43,6 +48,9 @@ import com.healyks.app.R
 import com.healyks.app.data.model.Lifestyle
 import com.healyks.app.data.model.UserDetails
 import com.healyks.app.state.UiState
+import com.healyks.app.ui.theme.Beige
+import com.healyks.app.ui.theme.Coffee
+import com.healyks.app.ui.theme.Oak
 import com.healyks.app.view.components.core.CustomButton
 import com.healyks.app.view.components.core.CustomDropdown
 import com.healyks.app.view.components.core.CustomTextField
@@ -53,6 +61,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun PostUserBodyScreen(
+    isEditMode: Boolean = false,
     navController: NavController,
     userViewModel: UserViewModel = hiltViewModel()
 ) {
@@ -111,12 +120,12 @@ fun PostUserBodyScreen(
                         inclusive = true
                     }
                 }
-                kotlinx.coroutines.delay(100)
-                userViewModel.resetPostUserState() // Reset the state after navigation
+                userViewModel.resetPostUserState()
             }
 
             is UiState.Failed -> {
                 Toast.makeText(context, postUserState.message, Toast.LENGTH_SHORT).show()
+                userViewModel.resetPostUserState()
             }
 
             else -> {}
@@ -350,49 +359,111 @@ fun PostUserBodyScreen(
                 )
             }
         }
-        CustomButton(
-            modifier = Modifier.padding(16.dp),
-            onClick = {
-                // Validate input fields
-                if (age.value.isEmpty() || bloodGroup.value.isEmpty() || height.value.isEmpty() ||
-                    weight.value.isEmpty() || selectedGender.value == null
-                ) {
-                    Toast.makeText(context, "Please fill all required fields", Toast.LENGTH_SHORT).show()
-                    return@CustomButton
-                }
-
-                // Prepare the UserDetails object
-                val userDetails = UserDetails(
-                    age = age.value.toInt(),
-                    bloodGroup = bloodGroup.value,
-                    height = height.value.toDouble().toInt(),
-                    weight = weight.value.toDouble().toInt(),
-                    allergies = selectedAllergies.toList(),
-                    chronicDiseases = selectedDiseases.toList(),
-                    medications = medications.value.split(",").map { it.trim() }, // Assuming medications are comma-separated
-                    gender = selectedGender.value!!,
-                    lifestyle = Lifestyle(
-                        alcohol = selectedLifestyles.contains("Drinking"),
-                        smoking = selectedLifestyles.contains("Smoking"),
-                        // Only include physicalActivity if Exercise is selected
-                        physicalActivity = if (selectedLifestyles.contains("Exercise")) {
-                            exerciseFrequency.value
-                        } else {
-                            // Use "None" instead of empty string, or whatever value is allowed in your enum
-                            null
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth(0.4f)
+                    .padding(16.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                ),
+                border = BorderStroke(2.dp, Coffee),
+                onClick = {
+                    // Navigate to DashboardScreen
+                    navController.navigate(HealyksScreens.DashboardScreen.route) {
+                        popUpTo(HealyksScreens.PostUserBodyScreen.route) {
+                            inclusive = true // Remove PostUserBodyScreen from the backstack
                         }
-                    ),
-                    email = userEmail // Add email if required
-                )
-
-                // Call the ViewModel to post user details
-                coroutineScope.launch {
-                    userViewModel.postUser(userDetails)
+                        launchSingleTop = true // Avoid duplicate DashboardScreen instances
+                    }
                 }
-            },
-            label = "Submit",
-            copy = 0.6f,
-            weight = FontWeight.SemiBold
-        )
+            ) {
+                Text(
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(6.dp),
+                    text = "Skip",
+                    color = Beige,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+            CustomButton(
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier.padding(16.dp),
+                onClick = {
+                    // Validate input fields
+                    when {
+                        age.value.isEmpty() -> Toast.makeText(
+                            context,
+                            "Please enter your age",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        bloodGroup.value.isEmpty() -> Toast.makeText(
+                            context,
+                            "Please select your blood group",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        height.value.isEmpty() -> Toast.makeText(
+                            context,
+                            "Please enter your height",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        weight.value.isEmpty() -> Toast.makeText(
+                            context,
+                            "Please enter your weight",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        selectedGender.value == null -> Toast.makeText(
+                            context,
+                            "Please select your gender",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        else -> {
+                            // Prepare the UserDetails object
+                            val userDetails = UserDetails(
+                                age = age.value.toInt(),
+                                bloodGroup = bloodGroup.value,
+                                height = height.value.toDouble(),
+                                weight = weight.value.toDouble(),
+                                allergies = selectedAllergies.toList(),
+                                chronicDiseases = selectedDiseases.toList(),
+                                medications = medications.value.split(",").map { it.trim() },
+                                gender = selectedGender.value!!,
+                                lifestyle = Lifestyle(
+                                    alcohol = selectedLifestyles.contains("Drinking"),
+                                    smoking = selectedLifestyles.contains("Smoking"),
+                                    physicalActivity = if (selectedLifestyles.contains("Exercise")) {
+                                        exerciseFrequency.value
+                                    } else {
+                                        null
+                                    }
+                                ),
+                                email = userEmail
+                            )
+
+                            // Call the ViewModel to post user details
+                            coroutineScope.launch {
+                                userViewModel.postUser(userDetails)
+                                // Set user details filled status to true
+                                userViewModel.setUserDetailsFilled(true)
+                            }
+                        }
+                    }
+                },
+                label = "Save",
+                copy = 0.6f,
+                weight = FontWeight.SemiBold
+            )
+        }
     }
 }

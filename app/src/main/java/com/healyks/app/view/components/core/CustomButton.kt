@@ -39,8 +39,6 @@ fun CustomButton(
         border = BorderStroke(2.dp, Coffee)
     ) {
         Text(
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(6.dp),
             text = label,
             color = Beige,
