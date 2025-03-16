@@ -1,8 +1,10 @@
 package com.healyks.app.di
 
+import com.healyks.app.data.local.CycleDatabase
 import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
 import com.healyks.app.BuildConfig
+import com.healyks.app.data.local.CycleDao
 import com.healyks.app.data.remote.UserApi
 import dagger.Module
 import dagger.Provides
@@ -64,4 +66,16 @@ object AppModule {
     @Singleton
     fun provideSharedPreferences(@ApplicationContext context: Context) =
         context.getSharedPreferences("user_details", Context.MODE_PRIVATE)
+
+    @Provides
+    @Singleton
+    fun provideCycleDatabase(@ApplicationContext context: Context): CycleDatabase {
+        return CycleDatabase.getDatabase(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCycleDao(database: CycleDatabase): CycleDao {
+        return database.cycleDao()
+    }
 }

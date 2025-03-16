@@ -117,6 +117,13 @@ dependencies {
     implementation(libs.lottie.compose)
 
     implementation ("com.google.accompanist:accompanist-swiperefresh:0.31.3-beta")
+
+    implementation ("io.github.vanpra.compose-material-dialogs:datetime:0.9.0")
+
+    // Room Database
+    implementation ("androidx.room:room-runtime:2.6.1")
+    ksp ("androidx.room:room-compiler:2.6.1")
+    implementation ("androidx.room:room-ktx:2.6.1")
 }
 
 fun getToken(): String{

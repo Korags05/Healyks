@@ -12,7 +12,9 @@ import com.google.firebase.auth.auth
 import com.healyks.app.view.screens.DashboardScreen
 import com.healyks.app.view.screens.FirstAidDetailScreen
 import com.healyks.app.view.screens.FirstAidListScreen
+import com.healyks.app.view.screens.NextPeriodCalculatorScreen
 import com.healyks.app.view.screens.OnBoardingScreen
+import com.healyks.app.view.screens.PeriodTrackerScreen
 import com.healyks.app.view.screens.PostUserBodyScreen
 import com.healyks.app.view.screens.ProfileScreen
 
@@ -29,7 +31,7 @@ fun HealyksNavigation(
     //temp sol
     val isUserLoggedIn = Firebase.auth.currentUser != null
     if (isUserLoggedIn) {
-        startDestination = HealyksScreens.DashboardScreen.route
+        startDestination = HealyksScreens.PeriodTrackerScreen.route
     }
 
     NavHost(
@@ -52,6 +54,12 @@ fun HealyksNavigation(
         }
         composable(HealyksScreens.FirstAidDetailScreen.route) {
             FirstAidDetailScreen(navController = navController)
+        }
+        composable(HealyksScreens.PeriodTrackerScreen.route) {
+            PeriodTrackerScreen(navController = navController)
+        }
+        composable(HealyksScreens.NextPeriodCalculatorScreen.route) {
+            NextPeriodCalculatorScreen(navController = navController)
         }
         composable(HealyksScreens.ProfileScreen.route) {
             ProfileScreen(
