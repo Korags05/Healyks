@@ -28,6 +28,8 @@ import java.time.YearMonth
 import androidx.compose.foundation.clickable
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import com.healyks.app.ui.theme.Coffee
+import com.healyks.app.ui.theme.Oak
 import java.time.format.DateTimeFormatter
 
 @Composable
@@ -42,7 +44,7 @@ fun Header(
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = MaterialTheme.colorScheme.background,
                 shape = RoundedCornerShape(20.dp)
             )
             .padding(vertical = 16.dp),
@@ -64,6 +66,7 @@ fun Header(
         Text(
             text = calendarUiState.yearMonth.format(formatter),
             fontSize = 22.sp,
+            color = Coffee,
             style = MaterialTheme.typography.titleMedium
         )
 

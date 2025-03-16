@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.healyks.app.ui.theme.Coffee
+import com.healyks.app.ui.theme.Oak
 
 @Composable
 fun CalendarDays() {
@@ -21,7 +23,7 @@ fun CalendarDays() {
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = MaterialTheme.colorScheme.background,
                 shape = RoundedCornerShape(20.dp)
             )
             .padding(24.dp, 0.dp),
@@ -31,6 +33,7 @@ fun CalendarDays() {
             Text(
                 text = days[it],
                 fontSize = 20.sp,
+                color = Coffee,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .padding(10.dp)

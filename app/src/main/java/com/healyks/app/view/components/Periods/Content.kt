@@ -22,6 +22,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.healyks.app.ui.theme.Beige
+import com.healyks.app.ui.theme.Coffee
+import com.healyks.app.ui.theme.Oak
 import com.healyks.app.vm.CalendarViewModel
 import java.time.LocalDate
 
@@ -36,7 +39,7 @@ fun Content(
     Column(
         modifier = Modifier
             .background(
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = MaterialTheme.colorScheme.background,
                 shape = RoundedCornerShape(20.dp)
             )
             .padding(vertical = 6.dp)
@@ -89,7 +92,7 @@ fun ContentItem(
                     date.isNextPeriod -> Color.Magenta.copy(alpha = 0.7f)
                     date.isOvulation -> Color.Blue.copy(alpha = 0.7f)
                     date.isFertileWindow -> Color.Green.copy(alpha = 0.5f)
-                    date.date == LocalDate.now() -> Color.Blue.copy(alpha = 0.3f)
+                    date.date == LocalDate.now() -> MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
                     date.isHoliday -> Color.Cyan.copy(alpha = 0.3f)
                     else -> Color.Transparent
                 },
@@ -102,8 +105,8 @@ fun ContentItem(
             style = MaterialTheme.typography.bodyMedium,
             color = when {
                 !date.isCurrentMonth -> Color.Gray
-                date.date == LocalDate.now() -> Color.White
-                else -> Color.Black
+                date.date == LocalDate.now() -> MaterialTheme.colorScheme.onBackground.copy(0.7f)
+                else -> MaterialTheme.colorScheme.onBackground
             }
         )
     }

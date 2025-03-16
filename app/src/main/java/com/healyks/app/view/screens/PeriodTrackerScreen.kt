@@ -1,17 +1,31 @@
 package com.healyks.app.view.screens
 
+import TopBar
+import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.healyks.app.data.local.Cycle
+import com.healyks.app.ui.theme.Beige
+import com.healyks.app.ui.theme.Coffee
 import com.healyks.app.view.components.Periods.Calendar
 import com.healyks.app.view.components.Periods.CalendarLegend
+import com.healyks.app.view.components.core.CustomButton
+import com.healyks.app.view.components.core.DatePickerField
 import com.healyks.app.view.navigation.HealyksScreens
 import com.healyks.app.vm.CalendarViewModel
 import com.healyks.app.vm.CycleViewModel
@@ -33,16 +47,9 @@ fun PeriodTrackerScreen(
     var startDate by remember { mutableStateOf<LocalDate?>(null) }
     var endDate by remember { mutableStateOf<LocalDate?>(null) }
     var showError by remember { mutableStateOf(false) }
-    var showPredictionsInfo by remember { mutableStateOf(false) }
 
     // Collect all cycles and predictions from the CycleViewModel
     val allCycles by cycleViewModel.allCycles.collectAsState(initial = emptyList())
-    val nextPeriodDate by cycleViewModel.nextPeriodDate.collectAsState()
-    val ovulationDate by cycleViewModel.ovulationDate.collectAsState()
-    val fertileWindow by cycleViewModel.fertileWindow.collectAsState()
-
-    // Format for displaying dates
-    val dateFormatter = remember { DateTimeFormatter.ofPattern("MMM dd, yyyy") }
 
     LaunchedEffect(cycleViewModel.nextPeriodDate, cycleViewModel.ovulationDate, cycleViewModel.fertileWindow) {
         calendarViewModel.updatePredictions(
@@ -69,77 +76,93 @@ fun PeriodTrackerScreen(
         )
     }
 
-    Column(modifier = Modifier.padding(16.dp)) {
-        // Calendar View
-        Calendar(calendarViewModel, onDayClick = { selectedDate -> })
+    Scaffold(topBar = {
+        TopBar(
+            name = "Shelyks",
+            onBackClick = { navController.navigateUp() }
+        )
+    }) { innerPadding ->
 
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Calendar Legend
-        CalendarLegend()
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Period Save Form
-        Text("Add New Period", style = MaterialTheme.typography.titleMedium)
-        DatePickerField("Start Date", startDate) { startDate = it }
-        Spacer(modifier = Modifier.height(8.dp))
-        DatePickerField("End Date", endDate) { endDate = it }
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+        Surface (
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
         ) {
-            Button(
-                onClick = {
-                    if (startDate == null || endDate == null) {
-                        showError = true
-                    } else {
-                        // Save the new cycle to the database
-                        cycleViewModel.insertCycle(
-                            Cycle(
-                                startDate = startDate!!.toDate(),
-                                endDate = endDate!!.toDate(),
-                                cycleLength = calculateCycleLength(startDate!!, endDate!!)
-                            )
-                        )
+            Column(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Calendar View
+                Calendar(calendarViewModel, onDayClick = { selectedDate -> })
 
-                        // If this is the first period, automatically calculate predictions
-                        if (allCycles.isEmpty()) {
-                            val avgCycleLength = 28 // Default average cycle length
-                            cycleViewModel.calculatePredictions(startDate!!, avgCycleLength)
+                // Calendar Legend
+                CalendarLegend()
+
+                // Period Save Form
+                Column(
+                    Modifier.background(
+                            shape = RoundedCornerShape(20.dp),
+                            color = MaterialTheme.colorScheme.primaryContainer)
+                        .padding(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text("Add New Period", color = Beige, style = MaterialTheme.typography.titleMedium)
+                    DatePickerField("Start Date", startDate) { startDate = it }
+                    DatePickerField("End Date", endDate) { endDate = it }
+                    Button(
+                        onClick = {
+                            if (startDate == null || endDate == null) {
+                                showError = true
+                            } else {
+                                // Save the new cycle to the database
+                                cycleViewModel.insertCycle(
+                                    Cycle(
+                                        startDate = startDate!!.toDate(),
+                                        endDate = endDate!!.toDate(),
+                                        cycleLength = calculateCycleLength(startDate!!, endDate!!)
+                                    )
+                                )
+
+                                // If this is the first period, automatically calculate predictions
+                                if (allCycles.isEmpty()) {
+                                    val avgCycleLength = 28 // Default average cycle length
+                                    cycleViewModel.calculatePredictions(startDate!!, avgCycleLength)
+                                }
+
+                                startDate = null
+                                endDate = null
+                                showError = false
+                            }
                         }
-
-                        startDate = null
-                        endDate = null
-                        showError = false
+                    ) {
+                        Text("Save Period")
                     }
-                },
-                modifier = Modifier.weight(1f)
-            ) {
-                Text("Save Period")
-            }
+                }
 
-            Spacer(modifier = Modifier.width(16.dp))
+                CustomButton(
+                    onClick = {navController.navigate(HealyksScreens.NextPeriodCalculatorScreen.route)},
+                    modifier = Modifier
+                        .fillMaxWidth(0.75f),
+                    label = "Calculate next period",
+                    copy = 0.75f,
+                    style = MaterialTheme.typography.titleLarge
+                )
 
-            // Navigation to Next Period Calculator
-            Button(
-                onClick = { navController.navigate(HealyksScreens.NextPeriodCalculatorScreen.route) },
-                modifier = Modifier.weight(1f)
-            ) {
-                Text("Calculate Next Period")
+                if (showError) {
+                    Text(
+                        text = "Please fill in all fields.",
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
+                }
             }
         }
 
-        if (showError) {
-            Text(
-                text = "Please fill in all fields.",
-                color = MaterialTheme.colorScheme.error,
-                modifier = Modifier.padding(top = 8.dp)
-            )
-        }
     }
 }
 
@@ -155,65 +178,4 @@ fun LocalDate.toDate(): Date {
 
 fun Date.toLocalDate(): LocalDate {
     return this.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
-}
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DatePickerField(
-    label: String,
-    selectedDate: LocalDate?,
-    onDateSelected: (LocalDate) -> Unit // Change to accept LocalDate directly
-) {
-    var showDatePicker by remember { mutableStateOf(false) }
-    val dateFormatter = remember { SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()) }
-
-    Column {
-        OutlinedTextField(
-            value = selectedDate?.let { dateFormatter.format(it.toDate()) } ?: "",
-            onValueChange = {},
-            label = { Text(label) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { showDatePicker = true },
-            enabled = false,
-            colors = TextFieldDefaults.colors(
-                disabledContainerColor = MaterialTheme.colorScheme.background,
-                disabledTextColor = MaterialTheme.colorScheme.onBackground
-            )
-        )
-
-        if (showDatePicker) {
-            val datePickerState = rememberDatePickerState(
-                initialSelectedDateMillis = selectedDate?.atStartOfDay(ZoneId.systemDefault())?.toInstant()?.toEpochMilli()
-            )
-
-            DatePickerDialog(
-                onDismissRequest = { showDatePicker = false },
-                confirmButton = {
-                    TextButton(
-                        onClick = {
-                            datePickerState.selectedDateMillis?.let { millis ->
-                                val date = Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault()).toLocalDate()
-                                onDateSelected(date)
-                            }
-                            showDatePicker = false
-                        }
-                    ) {
-                        Text("OK")
-                    }
-                },
-                dismissButton = {
-                    TextButton(
-                        onClick = { showDatePicker = false }
-                    ) {
-                        Text("Cancel")
-                    }
-                }
-            ) {
-                DatePicker(
-                    state = datePickerState,
-                    title = { Text("Select $label") }
-                )
-            }
-        }
-    }
 }

@@ -1,6 +1,8 @@
 package com.healyks.app.view.screens
 
 import TopBar
+import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -177,6 +179,21 @@ fun ProfileScreen(
                                     label = "Logout",
                                     copy = 0.75f
                                 )
+                                CustomButton(
+                                    onClick = {
+                                        val intent = Intent(Intent.ACTION_SENDTO).apply {
+                                            data = Uri.parse("mailto:")
+                                            putExtra(Intent.EXTRA_EMAIL, arrayOf("healyks.team@gmail.com"))
+                                            putExtra(Intent.EXTRA_SUBJECT, "Healyks App Feedback")
+                                        }
+                                        context.startActivity(intent)
+                                    },
+                                    modifier = Modifier
+                                        .padding(vertical = 4.dp, horizontal = 38.dp)
+                                        .fillMaxWidth(),
+                                    label = "Feedback",
+                                    copy = 0.75f
+                                )
                             }
                         } else {
                             // Show a message if no user details are found
@@ -226,7 +243,7 @@ fun ProfileScreen(
                     }
                     is UiState.Failed -> {
                         // Handle 404 error specifically
-                        if (getUserState.message?.contains("404", ignoreCase = true) == true) {
+                        if (getUserState.message.contains("404", ignoreCase = true) == true) {
                             // Show a message if no user details are found
                             LottieAnimation(
                                 modifier = Modifier.size(180.dp),

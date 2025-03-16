@@ -191,16 +191,11 @@ fun DashboardScreen(
                 ) {
                     CustomCard(label = "reminder", onClick = {}, iconRes = R.drawable.reminders)
                     CustomCard(
-                        label = "feedback",
+                        label = "Shelyks",
                         onClick = {
-                            val intent = Intent(Intent.ACTION_SENDTO).apply {
-                                data = Uri.parse("mailto:")
-                                putExtra(Intent.EXTRA_EMAIL, arrayOf("healyks.team@gmail.com"))
-                                putExtra(Intent.EXTRA_SUBJECT, "Healyks App Feedback")
-                            }
-                            context.startActivity(intent)
+                            navController.navigate(HealyksScreens.PeriodTrackerScreen.route)
                         },
-                        iconRes = R.drawable.feedback
+                        iconRes = R.drawable.female
                     )
                 }
             }

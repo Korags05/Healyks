@@ -31,7 +31,7 @@ fun HealyksNavigation(
     //temp sol
     val isUserLoggedIn = Firebase.auth.currentUser != null
     if (isUserLoggedIn) {
-        startDestination = HealyksScreens.PeriodTrackerScreen.route
+        startDestination = HealyksScreens.DashboardScreen.route
     }
 
     NavHost(

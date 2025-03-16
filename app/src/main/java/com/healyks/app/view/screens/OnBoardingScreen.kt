@@ -51,7 +51,7 @@ fun OnBoardingScreen(
     val verifyTokenState = userViewModel.verifyTokenState.collectAsState().value
     var resetTrigger by remember { mutableIntStateOf(0) }
     val token = BuildConfig.FIREBASE_TOKEN
-    val googleLoading by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.google_loading))
+    val loading by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.loading))
 
     val launcher = rememberFirebaseAuthLauncher(
         onAuthComplete = { result ->
@@ -112,7 +112,7 @@ fun OnBoardingScreen(
             if (verifyTokenState is UiState.Loading) {
                 LottieAnimation(
                     modifier = Modifier.size(180.dp),
-                    composition = googleLoading,
+                    composition = loading,
                     iterations = LottieConstants.IterateForever,
                     contentScale = ContentScale.Fit
                 )
