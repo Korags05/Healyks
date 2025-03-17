@@ -1,22 +1,18 @@
 package com.healyks.app.vm
 
 import android.util.Log
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.healyks.app.data.local.Cycle
-import com.healyks.app.data.local.CyclePrediction
+import com.healyks.app.data.local.periods.Cycle
+import com.healyks.app.data.local.periods.CyclePrediction
 import com.healyks.app.data.repo.CycleRepository
-import com.healyks.app.view.screens.toDate
 import com.healyks.app.view.screens.toLocalDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel

@@ -1,8 +1,8 @@
 package com.healyks.app.data.repo
 
-import com.healyks.app.data.local.Cycle
-import com.healyks.app.data.local.CycleDao
-import com.healyks.app.data.local.CyclePrediction
+import com.healyks.app.data.local.periods.Cycle
+import com.healyks.app.data.local.periods.CycleDao
+import com.healyks.app.data.local.periods.CyclePrediction
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

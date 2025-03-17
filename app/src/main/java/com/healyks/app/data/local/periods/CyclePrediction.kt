@@ -1,8 +1,7 @@
-package com.healyks.app.data.local
+package com.healyks.app.data.local.periods
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.time.LocalDate
 import java.util.Date
 
 @Entity(tableName = "predictions")

@@ -9,6 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.healyks.app.view.screens.AnalyzeScreen
 import com.healyks.app.view.screens.DashboardScreen
 import com.healyks.app.view.screens.FirstAidDetailScreen
 import com.healyks.app.view.screens.FirstAidListScreen
@@ -60,6 +61,9 @@ fun HealyksNavigation(
         }
         composable(HealyksScreens.NextPeriodCalculatorScreen.route) {
             NextPeriodCalculatorScreen(navController = navController)
+        }
+        composable(HealyksScreens.AnalyzeScreen.route) {
+            AnalyzeScreen(navController = navController)
         }
         composable(HealyksScreens.ProfileScreen.route) {
             ProfileScreen(

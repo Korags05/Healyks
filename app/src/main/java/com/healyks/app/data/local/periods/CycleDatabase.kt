@@ -1,10 +1,11 @@
-package com.healyks.app.data.local
+package com.healyks.app.data.local.periods
 
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import android.content.Context
+import com.healyks.app.data.local.Converters
 
 @Database(entities = [Cycle::class, CyclePrediction::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class) // Add this line

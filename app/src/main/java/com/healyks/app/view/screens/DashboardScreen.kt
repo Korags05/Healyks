@@ -182,7 +182,11 @@ fun DashboardScreen(
                         },
                         iconRes = R.drawable.firstaid
                     )
-                    CustomCard(label = "analyze", onClick = {}, iconRes = R.drawable.analyze)
+                    CustomCard(
+                        label = "analyze",
+                        onClick = { navController.navigate(HealyksScreens.AnalyzeScreen.route) },
+                        iconRes = R.drawable.analyze
+                    )
                 }
                 Row(
                     modifier = Modifier.fillMaxWidth(),

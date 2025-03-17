@@ -21,7 +21,8 @@ import androidx.compose.ui.unit.dp
 fun CustomCard(
     @DrawableRes iconRes: Int,
     label: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    size: Int = 100
 ) {
     Card(
         shape = CardDefaults.elevatedShape,
@@ -35,7 +36,7 @@ fun CustomCard(
         Column (
             modifier = Modifier
                 .padding(8.dp)
-                .size(100.dp),
+                .size(size.dp),
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

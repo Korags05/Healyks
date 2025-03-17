@@ -1,27 +1,20 @@
 package com.healyks.app.view.screens
 
 import TopBar
-import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.healyks.app.data.local.Cycle
+import com.healyks.app.data.local.periods.Cycle
 import com.healyks.app.ui.theme.Beige
-import com.healyks.app.ui.theme.Coffee
 import com.healyks.app.view.components.Periods.Calendar
 import com.healyks.app.view.components.Periods.CalendarLegend
 import com.healyks.app.view.components.core.CustomButton
@@ -29,11 +22,8 @@ import com.healyks.app.view.components.core.DatePickerField
 import com.healyks.app.view.navigation.HealyksScreens
 import com.healyks.app.vm.CalendarViewModel
 import com.healyks.app.vm.CycleViewModel
-import java.text.SimpleDateFormat
-import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
-import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.*
 

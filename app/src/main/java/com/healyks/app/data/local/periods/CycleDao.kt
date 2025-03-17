@@ -1,4 +1,4 @@
-package com.healyks.app.data.local
+package com.healyks.app.data.local.periods
 
 import androidx.room.Dao
 import androidx.room.Insert
