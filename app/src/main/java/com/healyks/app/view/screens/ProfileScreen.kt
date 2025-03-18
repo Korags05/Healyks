@@ -66,7 +66,6 @@ fun ProfileScreen(
     val userName = currentUser?.displayName ?: "KIIT Student"
     val userEmail = currentUser?.email ?: "No Email"
     val image = currentUser?.photoUrl?.toString() ?: "drawable://profile"
-    val phone = currentUser?.phoneNumber?.toString() ?: "9999999999"
 
     // Fetch user details
     val getUserState = userViewModel.getUserState.collectAsState().value

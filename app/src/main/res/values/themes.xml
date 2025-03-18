@@ -2,4 +2,8 @@
 <resources>
 
     <style name="Theme.Healyks" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="AppTheme" parent="Theme.Healyks">
+        <item name="android:windowBackground">@color/beige</item>
+    </style>
+
 </resources>

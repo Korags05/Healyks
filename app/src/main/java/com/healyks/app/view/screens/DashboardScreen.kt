@@ -28,6 +28,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -44,6 +45,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.google.firebase.auth.FirebaseAuth
 import com.healyks.app.R
 import com.healyks.app.data.model.DashboardItems
+import com.healyks.app.state.UiState
 import com.healyks.app.ui.theme.Beige
 import com.healyks.app.ui.theme.Coffee
 import com.healyks.app.ui.theme.Error
@@ -57,7 +59,7 @@ fun DashboardScreen(
     navController: NavController,
     userViewModel: UserViewModel = hiltViewModel()
 ) {
-    val isUserDetailsFilled by userViewModel.isUserDetailsFilled.collectAsState()
+    val getUserState = userViewModel.getUserState.collectAsState().value
     val context = LocalContext.current
     val auth = FirebaseAuth.getInstance()
     val currentUser = auth.currentUser
@@ -85,6 +87,13 @@ fun DashboardScreen(
         )
     )
     val scrollState = rememberScrollState()
+
+    // Fetch user details when the screen is launched
+    LaunchedEffect(Unit) {
+        if (getUserState is UiState.Idle) {
+            userViewModel.getUser()
+        }
+    }
 
     Scaffold(topBar = {
         TopBar(
@@ -128,7 +137,8 @@ fun DashboardScreen(
             verticalArrangement = Arrangement.spacedBy(6.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (!isUserDetailsFilled) {
+            if ((getUserState is UiState.Success && getUserState.data?.data == null) ||
+                getUserState is UiState.Failed) {
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
