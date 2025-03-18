@@ -327,10 +327,10 @@ fun ProfileDetails(userDetails: UserDetails) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        DetailItem("Age", userDetails.age.toString())
+        DetailItem("Age", userDetails.age?.toString())
         DetailItem("Blood Group", userDetails.bloodGroup)
-        DetailItem("Height", "${userDetails.height} cm")
-        DetailItem("Weight", "${userDetails.weight} kg")
+        DetailItem("Height", userDetails.height?.let { "$it cm" })
+        DetailItem("Weight", userDetails.weight?.let { "$it kg" })
         DetailItem("Gender", userDetails.gender)
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -341,7 +341,7 @@ fun ProfileDetails(userDetails: UserDetails) {
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground
         )
-        userDetails.allergies.forEach { allergy ->
+        userDetails.allergies?.forEach { allergy ->
             Text(
                 text = "- $allergy",
                 color = MaterialTheme.colorScheme.onBackground
@@ -356,7 +356,7 @@ fun ProfileDetails(userDetails: UserDetails) {
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground
         )
-        userDetails.chronicDiseases.forEach { disease ->
+        userDetails.chronicDiseases?.forEach { disease ->
             Text(
                 text = "- $disease",
                 color = MaterialTheme.colorScheme.onBackground
@@ -371,7 +371,7 @@ fun ProfileDetails(userDetails: UserDetails) {
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground
         )
-        userDetails.medications.forEach { medication ->
+        userDetails.medications?.forEach { medication ->
             Text(
                 text = "- $medication",
                 color = MaterialTheme.colorScheme.onBackground
@@ -387,14 +387,14 @@ fun ProfileDetails(userDetails: UserDetails) {
             color = MaterialTheme.colorScheme.onBackground
         )
         Text(
-            text = "Smoking: ${if (userDetails.lifestyle.smoking) "Yes" else "No"}",
+            text = "Smoking: ${if (userDetails.lifestyle?.smoking == true) "Yes" else "No"}",
             color = MaterialTheme.colorScheme.onBackground
         )
         Text(
-            text = "Drinking: ${if (userDetails.lifestyle.alcohol) "Yes" else "No"}",
+            text = "Drinking: ${if (userDetails.lifestyle?.alcohol == true) "Yes" else "No"}",
             color = MaterialTheme.colorScheme.onBackground
         )
-        userDetails.lifestyle.physicalActivity?.let { frequency ->
+        userDetails.lifestyle?.physicalActivity?.let { frequency ->
             Text(
                 text = "Exercise Frequency: $frequency",
                 color = MaterialTheme.colorScheme.onBackground
@@ -404,7 +404,7 @@ fun ProfileDetails(userDetails: UserDetails) {
 }
 
 @Composable
-fun DetailItem(label: String, value: String) {
+fun DetailItem(label: String, value: String?) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -418,7 +418,7 @@ fun DetailItem(label: String, value: String) {
             color = MaterialTheme.colorScheme.onBackground
         )
         Text(
-            text = value,
+            text = value ?: "N/A", // Provide a default value if `value` is null
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onBackground
         )

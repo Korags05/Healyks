@@ -1,79 +1,143 @@
 package com.healyks.app.view.navigation
 
 import android.util.Log
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
-import com.healyks.app.view.screens.AnalyzeScreen
-import com.healyks.app.view.screens.DashboardScreen
-import com.healyks.app.view.screens.FirstAidDetailScreen
-import com.healyks.app.view.screens.FirstAidListScreen
-import com.healyks.app.view.screens.NextPeriodCalculatorScreen
-import com.healyks.app.view.screens.OnBoardingScreen
-import com.healyks.app.view.screens.PeriodTrackerScreen
-import com.healyks.app.view.screens.PostUserBodyScreen
-import com.healyks.app.view.screens.ProfileScreen
+import com.healyks.app.view.screens.*
 
 @Composable
 fun HealyksNavigation(
     navController: NavHostController = rememberNavController()
 ) {
-
     val auth = FirebaseAuth.getInstance()
 
-    var startDestination =
+    val startDestination = if (auth.currentUser != null) {
+        HealyksScreens.DashboardScreen.route
+    } else {
         HealyksScreens.OnBoardingScreen.route
-
-    //temp sol
-    val isUserLoggedIn = Firebase.auth.currentUser != null
-    if (isUserLoggedIn) {
-        startDestination = HealyksScreens.DashboardScreen.route
     }
 
     NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
-        composable(HealyksScreens.OnBoardingScreen.route) {
+        // Onboarding to PostUserBody (Already working well)
+        composable(
+            route = HealyksScreens.OnBoardingScreen.route,
+            exitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right, tween(500)
+                )
+            },
+            popEnterTransition = {
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Up,
+                    tween(500)
+                )
+            }
+        ) {
             OnBoardingScreen(navController = navController)
         }
 
-        composable(HealyksScreens.PostUserBodyScreen.route) {
+        composable(
+            route = HealyksScreens.PostUserBodyScreen.route,
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right, tween(500)
+                )
+            },
+            popExitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left, tween(500)
+                )
+            }
+        ) {
             PostUserBodyScreen(navController = navController)
         }
 
-        composable(HealyksScreens.DashboardScreen.route) {
+        // Dashboard (No animation needed as it's the main screen)
+        composable(
+            HealyksScreens.DashboardScreen.route,
+            exitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    tween(500)
+                )
+            },
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    tween(500)
+                )
+            }
+        ) {
             DashboardScreen(navController = navController)
         }
-        composable(HealyksScreens.FirstAidListScreen.route) {
+
+        // First Aid List
+        composable(
+            HealyksScreens.FirstAidListScreen.route,
+            enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, tween(500)) },
+            popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, tween(500)) }
+        ) {
             FirstAidListScreen(navController = navController)
         }
-        composable(HealyksScreens.FirstAidDetailScreen.route) {
+
+        // First Aid Detail
+        composable(
+            HealyksScreens.FirstAidDetailScreen.route,
+            enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, tween(500)) },
+            popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, tween(500)) }
+        ) {
             FirstAidDetailScreen(navController = navController)
         }
-        composable(HealyksScreens.PeriodTrackerScreen.route) {
+
+        // Period Tracker
+        composable(
+            HealyksScreens.PeriodTrackerScreen.route,
+            enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, tween(500)) },
+            popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, tween(500)) }
+        ) {
             PeriodTrackerScreen(navController = navController)
         }
-        composable(HealyksScreens.NextPeriodCalculatorScreen.route) {
+
+        // Next Period Calculator
+        composable(
+            HealyksScreens.NextPeriodCalculatorScreen.route,
+            enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, tween(500)) },
+            popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, tween(500)) }
+        ) {
             NextPeriodCalculatorScreen(navController = navController)
         }
-        composable(HealyksScreens.AnalyzeScreen.route) {
+
+        // Analyze Screen
+        composable(
+            HealyksScreens.AnalyzeScreen.route,
+            enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, tween(500)) },
+            popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, tween(500)) }
+        ) {
             AnalyzeScreen(navController = navController)
         }
-        composable(HealyksScreens.ProfileScreen.route) {
+
+        // Profile Screen (Handles Logout)
+        composable(
+            HealyksScreens.ProfileScreen.route,
+            enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, tween(500)) },
+            exitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, tween(500)) }
+        ) {
             ProfileScreen(
                 navController = navController,
                 onLogOutClick = {
                     try {
                         auth.signOut()
-                        // This is the key fix: clear the entire back stack and navigate to OnBoarding
+                        // Navigate back to onboarding and clear back stack
                         navController.navigate(HealyksScreens.OnBoardingScreen.route) {
-                            // Clear the entire back stack
                             popUpTo(0) { inclusive = true }
                         }
                     } catch (e: Exception) {
