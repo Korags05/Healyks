@@ -3,8 +3,8 @@ package com.healyks.app.vm
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.healyks.app.data.local.periods.Cycle
-import com.healyks.app.data.local.periods.CyclePrediction
+import com.healyks.app.data.model.Cycle
+import com.healyks.app.data.model.CyclePrediction
 import com.healyks.app.data.repo.CycleRepository
 import com.healyks.app.view.screens.toLocalDate
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -1,4 +1,4 @@
-package com.healyks.app.data.local.periods
+package com.healyks.app.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.healyks.app.data.local.FirstAidItem
+import com.healyks.app.data.model.FirstAidItem
 
 class FirstAidViewModel : ViewModel() {
 

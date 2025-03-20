@@ -125,6 +125,15 @@ fun HealyksNavigation(
             AnalyzeScreen(navController = navController)
         }
 
+        //Reminder Screen
+        composable(
+            HealyksScreens.ReminderScreen.route,
+            enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, tween(500)) },
+            popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, tween(500)) }
+        ) {
+            ReminderScreen(navController = navController)
+        }
+
         // Profile Screen (Handles Logout)
         composable(
             HealyksScreens.ProfileScreen.route,

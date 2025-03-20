@@ -17,6 +17,8 @@ import com.healyks.app.ui.theme.Exo2
 
 @Composable
 fun CustomTextField(
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
     value: String,
     onValueChange: (String) -> Unit,
     label: String,
@@ -27,6 +29,7 @@ fun CustomTextField(
 ) {
 
     OutlinedTextField(
+        enabled = enabled,
         value = value,
         onValueChange = onValueChange,
         readOnly = readOnly,

@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.healyks.app.data.local.periods.Cycle
+import com.healyks.app.data.model.Cycle
 import com.healyks.app.ui.theme.Beige
 import com.healyks.app.view.components.Periods.Calendar
 import com.healyks.app.view.components.Periods.CalendarLegend

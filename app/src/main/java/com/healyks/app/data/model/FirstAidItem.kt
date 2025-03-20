@@ -1,4 +1,4 @@
-package com.healyks.app.data.local
+package com.healyks.app.data.model
 
 data class FirstAidItem (
     val category: String,

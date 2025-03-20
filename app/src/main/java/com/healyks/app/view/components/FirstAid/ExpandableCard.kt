@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.healyks.app.data.local.FirstAidItem
+import com.healyks.app.data.model.FirstAidItem
 import com.healyks.app.ui.theme.Oak
 import com.healyks.app.view.components.core.CustomButton
 import com.healyks.app.vm.FirstAidViewModel

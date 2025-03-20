@@ -203,7 +203,11 @@ fun DashboardScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
-                    CustomCard(label = "reminder", onClick = {}, iconRes = R.drawable.reminders)
+                    CustomCard(
+                        label = "reminder",
+                        onClick = { navController.navigate(HealyksScreens.ReminderScreen.route) },
+                        iconRes = R.drawable.reminders
+                    )
                     CustomCard(
                         label = "Shelyks",
                         onClick = {

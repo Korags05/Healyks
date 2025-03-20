@@ -5,8 +5,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.healyks.app.BuildConfig
 import com.healyks.app.data.local.periods.CycleDao
 import com.healyks.app.data.local.periods.CycleDatabase
+import com.healyks.app.data.local.reminder.ReminderDao
+import com.healyks.app.data.local.reminder.ReminderDatabase
 import com.healyks.app.data.remote.AnalyzeApi
 import com.healyks.app.data.remote.UserApi
+import com.healyks.app.data.repo.ReminderRepoImpl
+import com.healyks.app.data.repo.ReminderRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -84,5 +88,23 @@ object AppModule {
     @Singleton
     fun provideCycleDao(database: CycleDatabase): CycleDao {
         return database.cycleDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideReminderDatabase(@ApplicationContext context: Context) : ReminderDatabase {
+        return ReminderDatabase.getInstance(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideReminderDao(db: ReminderDatabase): ReminderDao {
+        return db.reminderDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideReminderRepo(reminderDao: ReminderDao) : ReminderRepository {
+        return ReminderRepoImpl(reminderDao)
     }
 }

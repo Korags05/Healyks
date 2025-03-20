@@ -28,7 +28,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
-import com.healyks.app.data.local.periods.CyclePrediction
+import com.healyks.app.data.model.CyclePrediction
 import com.healyks.app.view.components.core.DatePickerField
 import com.healyks.app.vm.CalendarViewModel
 import java.time.format.DateTimeFormatter

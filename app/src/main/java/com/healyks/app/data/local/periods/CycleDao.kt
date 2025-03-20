@@ -3,6 +3,8 @@ package com.healyks.app.data.local.periods
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import com.healyks.app.data.model.Cycle
+import com.healyks.app.data.model.CyclePrediction
 import kotlinx.coroutines.flow.Flow
 
 @Dao
