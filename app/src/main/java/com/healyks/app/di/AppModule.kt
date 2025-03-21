@@ -8,6 +8,7 @@ import com.healyks.app.data.local.periods.CycleDatabase
 import com.healyks.app.data.local.reminder.ReminderDao
 import com.healyks.app.data.local.reminder.ReminderDatabase
 import com.healyks.app.data.remote.AnalyzeApi
+import com.healyks.app.data.remote.DashboardApi
 import com.healyks.app.data.remote.UserApi
 import com.healyks.app.data.repo.ReminderRepoImpl
 import com.healyks.app.data.repo.ReminderRepository
@@ -67,6 +68,12 @@ object AppModule {
     @Singleton
     fun provideAnalyzeApi(retrofit: Retrofit): AnalyzeApi {
         return retrofit.create(AnalyzeApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDashboardApi(retrofit: Retrofit): DashboardApi {
+        return retrofit.create(DashboardApi::class.java)
     }
 
     @Provides

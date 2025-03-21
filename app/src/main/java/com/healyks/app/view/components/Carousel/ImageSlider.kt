@@ -34,6 +34,8 @@ import androidx.compose.ui.util.lerp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.healyks.app.data.model.DashboardItems
+import com.healyks.app.data.model.DashboardResponse
+import com.healyks.app.view.navigation.HealyksScreens
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
@@ -42,7 +44,7 @@ import kotlin.math.min
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ImageSlider(
-    sliderContents: List<DashboardItems>,
+    sliderContents: List<DashboardResponse>,
     modifier: Modifier = Modifier,
     navController: NavController
 ) {
@@ -110,10 +112,12 @@ fun ImageSlider(
                         }
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(16.dp))
-                        .clickable { TODO() }
+                        .clickable { navController.navigate(
+                            HealyksScreens.DashboardDetailScreen.route + "/${currentEvent.id}"
+                        ) }
                 ) {
                     Image(
-                        painter = rememberAsyncImagePainter(model = currentEvent.imageUrl),
+                        painter = rememberAsyncImagePainter(model = currentEvent.crouselImg),
                         contentDescription = null,
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop

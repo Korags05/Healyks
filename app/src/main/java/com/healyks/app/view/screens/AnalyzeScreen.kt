@@ -291,7 +291,7 @@ fun AnalyzeScreen(
 
                     // Gemini attribution
                     Text(
-                        text = "powered by Gemini 2.0 pro",
+                        text = "powered by Gemini 2.0 flash",
                         style = MaterialTheme.typography.labelSmall,
                         color = Color.Gray,
                         modifier = Modifier.padding(bottom = 16.dp)

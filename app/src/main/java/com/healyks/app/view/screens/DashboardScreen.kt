@@ -7,6 +7,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -34,6 +35,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -42,6 +44,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.google.firebase.auth.FirebaseAuth
 import com.healyks.app.R
 import com.healyks.app.data.model.DashboardItems
@@ -52,40 +58,25 @@ import com.healyks.app.ui.theme.Error
 import com.healyks.app.view.components.Carousel.ImageSlider
 import com.healyks.app.view.components.core.CustomCard
 import com.healyks.app.view.navigation.HealyksScreens
+import com.healyks.app.vm.DashboardViewModel
 import com.healyks.app.vm.UserViewModel
 
 @Composable
 fun DashboardScreen(
     navController: NavController,
-    userViewModel: UserViewModel = hiltViewModel()
+    userViewModel: UserViewModel = hiltViewModel(),
+    dashboardViewModel: DashboardViewModel = hiltViewModel()
 ) {
+    val loading by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.loading))
+    val noInternet by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.no_internet))
     val getUserState = userViewModel.getUserState.collectAsState().value
     val context = LocalContext.current
     val auth = FirebaseAuth.getInstance()
     val currentUser = auth.currentUser
     val userName = currentUser?.displayName ?: "Mbappe"
     val image = currentUser?.photoUrl?.toString() ?: "drawable://profile"
-
-    val sliderItems = listOf(
-        DashboardItems(
-            id = "1",
-            title = "Title 1",
-            description = "Description 1",
-            imageUrl = "https://static01.nyt.com/images/2024/04/05/multimedia/05rory-realmadrid-qkcm/05rory-realmadrid-qkcm-mediumSquareAt3X.jpg"
-        ),
-        DashboardItems(
-            id = "2",
-            title = "Title 2",
-            description = "Description 2",
-            imageUrl = "https://a.espncdn.com/combiner/i?img=/media/motion/2025/0309/dm_250309_Mbappe_and_Vinicius_fire_Real_Madrid_past_Rayo_Vallecano/dm_250309_Mbappe_and_Vinicius_fire_Real_Madrid_past_Rayo_Vallecano.jpg&w=1256"
-        ),
-        DashboardItems(
-            id = "3",
-            title = "Title 3",
-            description = "Description 3",
-            imageUrl = "https://a.espncdn.com/combiner/i?img=/media/motion/2025/0309/dm_250309_Mbappe_and_Vinicius_fire_Real_Madrid_past_Rayo_Vallecano/dm_250309_Mbappe_and_Vinicius_fire_Real_Madrid_past_Rayo_Vallecano.jpg&w=1256"
-        )
-    )
+    val dashboardData = dashboardViewModel.dashboardDataByID.collectAsState().value
+    val dashboardItems = listOf(dashboardData)
     val scrollState = rememberScrollState()
 
     // Fetch user details when the screen is launched
@@ -94,6 +85,12 @@ fun DashboardScreen(
             userViewModel.getUser()
         }
     }
+
+    LaunchedEffect(Unit) {
+        dashboardViewModel.getAllDashboardData()
+    }
+
+    val dashboardListState by dashboardViewModel.allDashboardData.collectAsState()
 
     Scaffold(topBar = {
         TopBar(
@@ -173,12 +170,47 @@ fun DashboardScreen(
                         containerColor = Color.Transparent
                     )
                 ) {
-                    ImageSlider(
-                        sliderContents = sliderItems,
-                        navController = navController,
-                        modifier = Modifier
-                            .fillMaxSize()
-                    )
+
+                    when(val state = dashboardListState) {
+                        is UiState.Failed -> {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                LottieAnimation(
+                                    modifier = Modifier.size(100.dp),
+                                    composition = noInternet,
+                                    iterations = LottieConstants.IterateForever,
+                                    contentScale = ContentScale.Fit
+                                )
+                            }
+                        }
+                        UiState.Idle -> {
+                            dashboardViewModel.getAllDashboardData()
+                        }
+                        UiState.Loading -> {
+                            Box(
+                                modifier = Modifier.fillMaxSize(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                LottieAnimation(
+                                    modifier = Modifier.size(100.dp),
+                                    composition = loading,
+                                    iterations = LottieConstants.IterateForever,
+                                    contentScale = ContentScale.Fit
+                                )
+                            }
+                        }
+                        is UiState.Success -> {
+                            val dashboardItems = state.data.data ?: emptyList()
+                            ImageSlider(
+                                sliderContents = dashboardItems,
+                                navController = navController,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                            )
+                        }
+                    }
                 }
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -206,14 +238,14 @@ fun DashboardScreen(
                     CustomCard(
                         label = "reminder",
                         onClick = { navController.navigate(HealyksScreens.ReminderScreen.route) },
-                        iconRes = R.drawable.reminders
+                        iconRes = R.drawable.reminder
                     )
                     CustomCard(
                         label = "Shelyks",
                         onClick = {
                             navController.navigate(HealyksScreens.PeriodTrackerScreen.route)
                         },
-                        iconRes = R.drawable.female
+                        iconRes = R.drawable.shelyks
                     )
                 }
             }

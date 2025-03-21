@@ -5,9 +5,11 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.google.firebase.auth.FirebaseAuth
 import com.healyks.app.view.screens.*
 
@@ -80,6 +82,23 @@ fun HealyksNavigation(
             DashboardScreen(navController = navController)
         }
 
+        composable(
+            route = HealyksScreens.DashboardDetailScreen.route + "/{dashboardId}",
+            enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, tween(500)) },
+            popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, tween(500)) },
+            arguments = listOf(
+                navArgument("dashboardId") {
+                    type = NavType.StringType
+                }
+            )
+        ) { backStackEntry ->
+            val dashboardId = backStackEntry.arguments?.getString("dashboardId") ?: ""
+            DashboardDetailScreen(
+                navController = navController,
+                dashboardId = dashboardId
+            )
+        }
+
         // First Aid List
         composable(
             HealyksScreens.FirstAidListScreen.route,
@@ -92,8 +111,8 @@ fun HealyksNavigation(
         // First Aid Detail
         composable(
             HealyksScreens.FirstAidDetailScreen.route,
-            enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, tween(500)) },
-            popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, tween(500)) }
+            enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right, tween(500)) },
+            popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left, tween(500)) }
         ) {
             FirstAidDetailScreen(navController = navController)
         }
