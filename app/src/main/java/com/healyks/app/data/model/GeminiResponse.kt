@@ -7,5 +7,8 @@ data class GeminiResponse(
     val condition: String,
 
     @SerializedName("recommendation")
-    val recommendation: String
+    val recommendation: String,
+
+    @SerializedName("homeRemedies")
+    val homeRemedies: String
 )

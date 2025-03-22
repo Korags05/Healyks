@@ -52,7 +52,9 @@ fun FirstAidListScreen(
                     list = items,
                     firstAidViewModel = firstAidViewModel,
                     navigateToDetail = {
-                        navController.navigate(HealyksScreens.FirstAidDetailScreen.route)
+                        navController.navigate(HealyksScreens.FirstAidDetailScreen.route) {
+                            launchSingleTop = true
+                        }
                     }
                 )
             }

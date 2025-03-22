@@ -129,8 +129,8 @@ fun HealyksNavigation(
         // Next Period Calculator
         composable(
             HealyksScreens.NextPeriodCalculatorScreen.route,
-            enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Left, tween(500)) },
-            popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Right, tween(500)) }
+            enterTransition = { slideIntoContainer(AnimatedContentTransitionScope.SlideDirection.Right, tween(500)) },
+            popExitTransition = { slideOutOfContainer(AnimatedContentTransitionScope.SlideDirection.Left, tween(500)) }
         ) {
             NextPeriodCalculatorScreen(navController = navController)
         }

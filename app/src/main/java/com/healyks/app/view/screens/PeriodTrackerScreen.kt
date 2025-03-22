@@ -135,7 +135,9 @@ fun PeriodTrackerScreen(
                 }
 
                 CustomButton(
-                    onClick = {navController.navigate(HealyksScreens.NextPeriodCalculatorScreen.route)},
+                    onClick = {navController.navigate(HealyksScreens.NextPeriodCalculatorScreen.route) {
+                        launchSingleTop = true
+                    } },
                     modifier = Modifier
                         .fillMaxWidth(0.75f),
                     label = "Calculate next period",

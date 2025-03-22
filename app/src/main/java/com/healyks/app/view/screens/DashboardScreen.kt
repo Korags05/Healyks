@@ -220,13 +220,17 @@ fun DashboardScreen(
                     CustomCard(
                         label = "first aid",
                         onClick = {
-                            navController.navigate(HealyksScreens.FirstAidListScreen.route)
+                            navController.navigate(HealyksScreens.FirstAidListScreen.route) {
+                                launchSingleTop = true
+                            }
                         },
                         iconRes = R.drawable.firstaid
                     )
                     CustomCard(
                         label = "analyze",
-                        onClick = { navController.navigate(HealyksScreens.AnalyzeScreen.route) },
+                        onClick = { navController.navigate(HealyksScreens.AnalyzeScreen.route) {
+                            launchSingleTop = true
+                        } },
                         iconRes = R.drawable.analyze
                     )
                 }
@@ -237,13 +241,17 @@ fun DashboardScreen(
                 ) {
                     CustomCard(
                         label = "reminder",
-                        onClick = { navController.navigate(HealyksScreens.ReminderScreen.route) },
+                        onClick = { navController.navigate(HealyksScreens.ReminderScreen.route) {
+                            launchSingleTop = true
+                        } },
                         iconRes = R.drawable.reminder
                     )
                     CustomCard(
                         label = "Shelyks",
                         onClick = {
-                            navController.navigate(HealyksScreens.PeriodTrackerScreen.route)
+                            navController.navigate(HealyksScreens.PeriodTrackerScreen.route) {
+                                launchSingleTop = true
+                            }
                         },
                         iconRes = R.drawable.shelyks
                     )

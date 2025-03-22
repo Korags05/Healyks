@@ -3,8 +3,6 @@ package com.healyks.app.view.screens
 import TopBar
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,7 +18,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,7 +29,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -44,7 +40,6 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.healyks.app.R
 import com.healyks.app.data.model.GeminiBody
 import com.healyks.app.state.UiState
-import com.healyks.app.ui.theme.Coffee
 import com.healyks.app.ui.theme.Oak
 import com.healyks.app.view.components.core.CustomButton
 import com.healyks.app.view.components.core.CustomTextField
@@ -117,8 +112,8 @@ fun AnalyzeScreen(
                                     verticalArrangement = Arrangement.spacedBy(8.dp)
                                 ) {
                                     Text(
-                                        text = "Conditions",
-                                        style = MaterialTheme.typography.titleMedium,
+                                        text = "Conditions".uppercase(),
+                                        style = MaterialTheme.typography.titleLarge,
                                         color = MaterialTheme.colorScheme.onSurface
                                     )
                                     Text(
@@ -142,12 +137,37 @@ fun AnalyzeScreen(
                                     verticalArrangement = Arrangement.spacedBy(8.dp)
                                 ) {
                                     Text(
-                                        text = "Recommendations",
-                                        style = MaterialTheme.typography.titleMedium,
+                                        text = "Recommendations".uppercase(),
+                                        style = MaterialTheme.typography.titleLarge,
                                         color = MaterialTheme.colorScheme.onSurface
                                     )
                                     Text(
                                         text = postSymptomState.data.data?.recommendation ?: "",
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                }
+                            }
+
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                shape = RoundedCornerShape(16.dp),
+                                border = BorderStroke(1.dp, Oak),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.surface
+                                )
+                            ) {
+                                Column(
+                                    modifier = Modifier.padding(16.dp),
+                                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    Text(
+                                        text = "Home Remedies".uppercase(),
+                                        style = MaterialTheme.typography.titleLarge,
+                                        color = MaterialTheme.colorScheme.onSurface
+                                    )
+                                    Text(
+                                        text = postSymptomState.data.data?.homeRemedies ?: "",
                                         style = MaterialTheme.typography.bodyMedium
                                     )
                                 }
@@ -253,7 +273,7 @@ fun AnalyzeScreen(
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             Text(
-                                text = "Enter your symptoms",
+                                text = "Explain your symptoms",
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.onSurface
                             )

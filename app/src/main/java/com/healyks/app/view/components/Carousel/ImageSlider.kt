@@ -92,7 +92,7 @@ fun ImageSlider(
                             .currentPageOffsetFraction
                         ).absoluteValue
 
-                val currentEvent = sliderContents[infinitePages[index]]
+                val currentItem = sliderContents[infinitePages[index]]
 
                 Surface(
                     modifier = Modifier
@@ -113,11 +113,13 @@ fun ImageSlider(
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(16.dp))
                         .clickable { navController.navigate(
-                            HealyksScreens.DashboardDetailScreen.route + "/${currentEvent.id}"
-                        ) }
+                            HealyksScreens.DashboardDetailScreen.route + "/${currentItem.id}"
+                        ) {
+                            launchSingleTop = true
+                        } }
                 ) {
                     Image(
-                        painter = rememberAsyncImagePainter(model = currentEvent.crouselImg),
+                        painter = rememberAsyncImagePainter(model = currentItem.crouselImg),
                         contentDescription = null,
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop
