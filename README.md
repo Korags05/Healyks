@@ -1,4 +1,6 @@
 # Healyks: AI-Powered Rural Healthcare Assistant
+                                              ![Healyks_Logo](https://github.com/user-attachments/assets/8d8caf92-d93d-458f-96f9-8698a0f4cf2f)
+
 
 ## 🌍 Project Overview
 
