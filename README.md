@@ -9,9 +9,7 @@ Healyks is an innovative Android application designed to address healthcare acce
 ### 1. AI-Powered Symptom Checker
 - Analyze symptoms using Google Gemini API
 - Provide personalized health recommendations
-- Support for text and voice input
-  ![image](https://github.com/user-attachments/assets/8c57f4b6-af67-4dbf-a878-60deb4130fa4) 
-  ![image](https://github.com/user-attachments/assets/730eb902-a8da-4093-b259-031e9c43e663)
+  ![image](https://github.com/user-attachments/assets/8c57f4b6-af67-4dbf-a878-60deb4130fa4)  ![image](https://github.com/user-attachments/assets/730eb902-a8da-4093-b259-031e9c43e663)
 
 
 ### 2. Medication Management
