@@ -9,8 +9,6 @@ Healyks is an innovative Android application designed to address healthcare acce
 ### 1. AI-Powered Symptom Checker
 - Analyze symptoms using Google Gemini API
 - Provide personalized health recommendations
-  ![image](https://github.com/user-attachments/assets/8c57f4b6-af67-4dbf-a878-60deb4130fa4)  ![image](https://github.com/user-attachments/assets/730eb902-a8da-4093-b259-031e9c43e663)
-
 
 ### 2. Medication Management
 - Create personalized medication reminders
@@ -21,23 +19,16 @@ Healyks is an innovative Android application designed to address healthcare acce
 - AI-generated preventive health content
 - Offline-accessible educational materials
 - Simplified health information
-  ![image](https://github.com/user-attachments/assets/d266e028-185e-4f47-afff-072bbcecf8de)
 
 ### 4. Emergency First-Aid Guidance
 - Step-by-step emergency instructions
 - Offline access to critical information
 - Quick emergency service contact options
-  ![image](https://github.com/user-attachments/assets/198a93d6-5245-4c8a-9b9a-aaee61ab0088)
-  ![image](https://github.com/user-attachments/assets/843aacc7-d061-4bfa-b7b7-5e7495ad975c)
-
 
 ### 5. Periods and Ovulation Tracker
 - Menstrual cycle tracking
 - Next period prediction
 - Fertility window identification
-  ![image](https://github.com/user-attachments/assets/828cd93f-47bb-4110-8051-18c9e9980300) ![image](https://github.com/user-attachments/assets/ae9bc3a1-bb23-408d-8c9c-c2a6977af106)
-  ![image](https://github.com/user-attachments/assets/b6ad2e27-d305-4401-9997-4ef88a455327)
-
 
 ## 🛠 Technology Stack
 
@@ -105,3 +96,25 @@ Project Lead: Kunal Saha
 - Google for Gemini API
 - Firebase Authentication
 - Android Development Community
+
+## Screenshots
+
+![dashboard](https://github.com/user-attachments/assets/439b74a1-f107-45bf-8b25-2926452f553a) 
+
+![ProfileDashboard](https://github.com/user-attachments/assets/9030ba91-3b70-4d5b-8711-1ad8e4fa8d0e) 
+
+![analyze1](https://github.com/user-attachments/assets/8c57f4b6-af67-4dbf-a878-60deb4130fa4)  
+
+![analyze2](https://github.com/user-attachments/assets/730eb902-a8da-4093-b259-031e9c43e663)
+
+![educationalItems1](https://github.com/user-attachments/assets/d266e028-185e-4f47-afff-072bbcecf8de)
+
+![FirstAid1](https://github.com/user-attachments/assets/198a93d6-5245-4c8a-9b9a-aaee61ab0088)
+
+![FirstAid2](https://github.com/user-attachments/assets/843aacc7-d061-4bfa-b7b7-5e7495ad975c)
+
+![PeriodTracker1](https://github.com/user-attachments/assets/828cd93f-47bb-4110-8051-18c9e9980300)
+
+![PeriodTracker2](https://github.com/user-attachments/assets/ae9bc3a1-bb23-408d-8c9c-c2a6977af106)
+
+![PeriodTracker3](https://github.com/user-attachments/assets/b6ad2e27-d305-4401-9997-4ef88a455327)
