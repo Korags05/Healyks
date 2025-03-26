@@ -1,5 +1,5 @@
 # Healyks: AI-Powered Rural Healthcare Assistant
-![Healyks_Logo](https://github.com/user-attachments/assets/8d8caf92-d93d-458f-96f9-8698a0f4cf2f)
+  ![Healyks_Logo](https://github.com/user-attachments/assets/8d8caf92-d93d-458f-96f9-8698a0f4cf2f)
 ## 🌍 Project Overview
 
 Healyks is an innovative Android application designed to address healthcare access challenges in underserved communities. By leveraging AI technologies and mobile accessibility, the app provides comprehensive health support for rural and resource-limited areas.
