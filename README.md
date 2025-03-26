@@ -10,6 +10,9 @@ Healyks is an innovative Android application designed to address healthcare acce
 - Analyze symptoms using Google Gemini API
 - Provide personalized health recommendations
 - Support for text and voice input
+  ![image](https://github.com/user-attachments/assets/8c57f4b6-af67-4dbf-a878-60deb4130fa4) 
+  ![image](https://github.com/user-attachments/assets/730eb902-a8da-4093-b259-031e9c43e663)
+
 
 ### 2. Medication Management
 - Create personalized medication reminders
@@ -20,16 +23,23 @@ Healyks is an innovative Android application designed to address healthcare acce
 - AI-generated preventive health content
 - Offline-accessible educational materials
 - Simplified health information
+  ![image](https://github.com/user-attachments/assets/d266e028-185e-4f47-afff-072bbcecf8de)
 
 ### 4. Emergency First-Aid Guidance
 - Step-by-step emergency instructions
 - Offline access to critical information
 - Quick emergency service contact options
+  ![image](https://github.com/user-attachments/assets/198a93d6-5245-4c8a-9b9a-aaee61ab0088)
+  ![image](https://github.com/user-attachments/assets/843aacc7-d061-4bfa-b7b7-5e7495ad975c)
+
 
 ### 5. Periods and Ovulation Tracker
 - Menstrual cycle tracking
 - Next period prediction
 - Fertility window identification
+  ![image](https://github.com/user-attachments/assets/828cd93f-47bb-4110-8051-18c9e9980300) ![image](https://github.com/user-attachments/assets/ae9bc3a1-bb23-408d-8c9c-c2a6977af106)
+  ![image](https://github.com/user-attachments/assets/b6ad2e27-d305-4401-9997-4ef88a455327)
+
 
 ## 🛠 Technology Stack
 
