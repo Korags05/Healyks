@@ -16,9 +16,9 @@ Healyks is an innovative Android application designed to address healthcare acce
 - Easy scheduling and tracking
 
 ### 3. Health Education
-- AI-generated preventive health content
-- Offline-accessible educational materials
+- Preventive health content
 - Simplified health information
+- Accessible on dashboard 
 
 ### 4. Emergency First-Aid Guidance
 - Step-by-step emergency instructions
