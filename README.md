@@ -48,7 +48,6 @@ Addressing the lack of healthcare access in underserved communities by providing
 ### Prerequisites
 - Android Studio
 - Firebase Account
-- Google Cloud Project (for Gemini API)
 
 ### Clone the Repository
 ```bash
