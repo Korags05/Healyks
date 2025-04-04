@@ -23,8 +23,6 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject constructor(
     private val userRepo: UserRepo,
-    private val sharedPreferences: SharedPreferences,
-    private val firebaseAuth: FirebaseAuth
 ) : ViewModel() {
 
     private val _verifyTokenState: MutableStateFlow<UiState<CustomResponse<Unit>>> =
@@ -103,42 +101,5 @@ class UserViewModel @Inject constructor(
 
     fun resetGetUserState() {
         _getUserState.value = UiState.Idle
-    }
-
-    // State to track if user details are filled
-    private val _isUserDetailsFilled = MutableStateFlow(getUserDetailsFilledFromStorage())
-    val isUserDetailsFilled: StateFlow<Boolean> get() = _isUserDetailsFilled
-
-    // Function to set user details filled status
-    fun setUserDetailsFilled(isFilled: Boolean) {
-        viewModelScope.launch {
-            _isUserDetailsFilled.value = isFilled
-            saveUserDetailsFilledToStorage(isFilled)
-        }
-    }
-
-    // Save the state to SharedPreferences
-    private fun saveUserDetailsFilledToStorage(isFilled: Boolean) {
-        val user = firebaseAuth.currentUser
-        if (user != null) {
-            val key = "isUserDetailsFilled_${user.uid}" // Use UID as part of the key
-            sharedPreferences.edit().putBoolean(key, isFilled).apply()
-        }
-    }
-
-    // Retrieve the state from SharedPreferences
-    private fun getUserDetailsFilledFromStorage(): Boolean {
-        val user = firebaseAuth.currentUser
-        return if (user != null) {
-            val key = "isUserDetailsFilled_${user.uid}" // Use UID as part of the key
-            sharedPreferences.getBoolean(key, false)
-        } else {
-            false
-        }
-    }
-
-    // Reset the state when the user logs out or switches accounts
-    fun resetUserDetailsFilled() {
-        _isUserDetailsFilled.value = false
     }
 }

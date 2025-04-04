@@ -61,7 +61,6 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun PostUserBodyScreen(
-    isEditMode: Boolean = false,
     navController: NavController,
     userViewModel: UserViewModel = hiltViewModel()
 ) {
@@ -454,8 +453,6 @@ fun PostUserBodyScreen(
                             // Call the ViewModel to post user details
                             coroutineScope.launch {
                                 userViewModel.postUser(userDetails)
-                                // Set user details filled status to true
-                                userViewModel.setUserDetailsFilled(true)
                             }
                         }
                     }

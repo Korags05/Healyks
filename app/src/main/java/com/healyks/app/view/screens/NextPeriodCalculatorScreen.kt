@@ -94,14 +94,18 @@ fun NextPeriodCalculatorScreen(
                 OutlinedCard(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
+                    Column(
+                        modifier = Modifier.padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
                         DatePickerField("Last Period Date", lastPeriodDate) { lastPeriodDate = it }
                         Spacer(modifier = Modifier.height(8.dp))
 
                         TextField(
                             value = cycleLength,
                             onValueChange = { cycleLength = it },
-                            label = { Text("Cycle Length (days)") },
+                            label = { Text("Avg. Cycle Length (days)") },
                             isError = showError && cycleLength.isBlank(),
                             modifier = Modifier.fillMaxWidth()
                         )

@@ -70,13 +70,10 @@ fun DashboardScreen(
     val loading by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.loading))
     val noInternet by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.no_internet))
     val getUserState = userViewModel.getUserState.collectAsState().value
-    val context = LocalContext.current
     val auth = FirebaseAuth.getInstance()
     val currentUser = auth.currentUser
     val userName = currentUser?.displayName ?: "Mbappe"
     val image = currentUser?.photoUrl?.toString() ?: "drawable://profile"
-    val dashboardData = dashboardViewModel.dashboardDataByID.collectAsState().value
-    val dashboardItems = listOf(dashboardData)
     val scrollState = rememberScrollState()
 
     // Fetch user details when the screen is launched

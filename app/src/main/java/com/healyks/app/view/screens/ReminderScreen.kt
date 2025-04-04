@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -37,12 +38,17 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.healyks.app.R
 import com.healyks.app.data.model.Reminder
 import com.healyks.app.data.util.cancelAlarm
@@ -61,6 +67,7 @@ fun ReminderScreen(
     navController: NavController,
     reminderViewModel: ReminderViewModel = hiltViewModel()
 ) {
+    val noData by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.no_data))
     val uiState by reminderViewModel.uiState.collectAsState()
     val sheetState = rememberModalBottomSheetState()
     var isSheetOpen by remember { mutableStateOf(false) }
@@ -146,13 +153,17 @@ fun ReminderScreen(
             }
 
             if (uiState.data.isEmpty()) {
-                Box(
-                    modifier = Modifier
-                        .padding(paddingValues)
-                        .fillMaxSize(),
-                    contentAlignment = Alignment.Center
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = "No reminders found. Add one with the + button.")
+                    LottieAnimation(
+                        modifier = Modifier.size(180.dp),
+                        composition = noData,
+                        iterations = LottieConstants.IterateForever,
+                        contentScale = ContentScale.Fit
+                    )
                 }
             } else {
                 LazyColumn(
