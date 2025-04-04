@@ -63,8 +63,8 @@ cd Healyks
 ### Environment Configuration
 1. Create/Update `local.properties` file in the root directory with:
 ```properties```
-BASE_URL = "http://ec2-13-232-188-167.ap-south-1.compute.amazonaws.com:5000/"
-FIREBASE_TOKEN = "your_firebase_server_key"
+  BASE_URL = "http://ec2-13-232-188-167.ap-south-1.compute.amazonaws.com:5000/"
+  FIREBASE_TOKEN = "your_firebase_server_key"
 
 ### Build and Run
 1. Open the project in Android Studio
