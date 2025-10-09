@@ -107,12 +107,6 @@ fun a(s: List<String>): HealthReport {
 }
 ```
 
-### Backend/JavaScript
-- Follow [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
-- Use async/await for asynchronous operations
-- Implement proper error handling
-- Write clean, modular code
-
 ### Commit Messages
 Follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
 
