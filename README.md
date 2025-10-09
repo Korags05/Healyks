@@ -91,6 +91,38 @@ cd Healyks
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+## 👥 Contributing
+
+We welcome contributions from developers, designers, healthcare professionals, and anyone passionate about improving healthcare access! Whether you're fixing bugs, adding features, improving documentation, or suggesting ideas, your help is valuable.
+
+### Quick Start
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'feat: add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+### Ways to Contribute
+
+- 🐛 **Report bugs** or suggest features via [Issues](https://github.com/Korags05/Healyks/issues)
+- 💻 **Submit code** improvements or new features
+- 📖 **Improve documentation** and add examples
+- 🌐 **Add translations** for regional languages
+- ✅ **Write tests** to improve code quality
+- 🎨 **Design UI/UX** improvements
+
+Please read our [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on:
+- Development setup
+- Coding standards
+- Pull request process
+- Bug reporting
+- Feature requests
+
+### Code of Conduct
+
+We're committed to providing a welcoming and inclusive environment. Please be respectful and constructive in all interactions.
+
 ## 📞 Contact
 
 Project Lead: Kunal Saha
