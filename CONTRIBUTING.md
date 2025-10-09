@@ -45,8 +45,6 @@ By participating in this project, you agree to maintain a respectful, inclusive,
 ### Areas We Need Help With
 
 - **Frontend Development**: UI/UX improvements, new features in Jetpack Compose
-- **Backend Development**: API endpoints, database optimizations
-- **AI/ML Integration**: Enhancing symptom analysis, improving recommendations
 - **Documentation**: README improvements, code comments, user guides
 - **Testing**: Writing unit tests, integration tests, UI tests
 - **Localization**: Adding support for regional languages
